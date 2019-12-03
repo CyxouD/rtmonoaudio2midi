@@ -125,17 +125,17 @@ class SpectralAnalyser(object):
         Calculates the complex cepstrum of a real sequence.
         """
         spectrum = np.fft.fft(samples)
-        log_spectrum = np.log(np.abs(spectrum))
+        log_spectrum = np.log(np.abs(spectrum)) # TODO check divide by zero error in test_data/IDMT-SMT-GUITAR_V2/dataset1/Ibanez Power Strat Clean Neck HU
         cepstrum = np.fft.ifft(log_spectrum).real
         return cepstrum
 
 
-class StreamProcessor(object):
+class StreamProcessor():
 
     FREQS_BUF_SIZE = 11
 
-    def __init__(self):
-        self._wf = wave.open('test_data/G53-40100-1111-00001.wav', 'rb')
+    def __init__(self, pathWav):
+        self._wf = wave.open(pathWav, 'rb')
         if SAMPLE_RATE: 
             self._sample_rate = self._wf.getframerate()
         else: 
@@ -147,12 +147,14 @@ class StreamProcessor(object):
         fluidsynth.init(SOUNDFONT)
 
     def run(self):
+        fundament_freqs = []
         if FROM_FILE:
             while True:
                 data = self._wf.readframes(WINDOW_SIZE);
                 if not data:
                     break;
-                self._process_wav_frame(data)
+                fund_freq = self._process_wav_frame(data)
+                fundament_freqs.append(fund_freq)
             self._wf.close()
         else:
             pya = PyAudio()
@@ -172,11 +174,14 @@ class StreamProcessor(object):
             self._stream.stop_stream()
             self._stream.close()
             pya.terminate()
+
+
+        return filter(lambda x: x is not None, fundament_freqs)
      
 
     def _process_wav_frame(self, frames):
         data_array = np.frombuffer(frames, dtype=np.int16)
-        self._process_data(data_array)
+        return self._process_data(data_array)
 
     def _process_stream_frame(self, data, frame_count, time_info, status_flag):
         data_array = np.fromstring(data, dtype=np.int16)
@@ -188,13 +193,16 @@ class StreamProcessor(object):
         freq0 = self._spectral_analyser.process_data(data)
         if freq0:
             # Onset detected
-            print("Note detected; fundamental frequency: ", freq0)
-            midi_note_value = int(hz_to_midi(freq0)[0])
-            print("Midi note value: ", midi_note_value)
-            fluidsynth.play_Note(midi_note_value, 0, 100)
+            # print("Note detected; fundamental frequency: ", freq0)
+            midi_note_value = int(hz_to_midi(freq0)[0]) 
+            # print("Midi note value: ", midi_note_value)
+            # fluidsynth.play_Note(midi_note_value, 0, 100)
+            return midi_note_value
+
+        return None
 
 
 
 if __name__ == '__main__':
-    stream_proc = StreamProcessor()
+    stream_proc = StreamProcessor("test_data/IDMT-SMT-GUITAR_V2/dataset1/Fender Strat Clean Neck SC/audio/G53-40100-1111-00001.wav")
     stream_proc.run()
