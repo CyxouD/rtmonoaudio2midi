@@ -109,7 +109,7 @@ class SpectralAnalyser(object):
         """
         # TODO: find another way to treat differently if not
         # equal to the window size
-        if (np.size(samples) == self._window_size): 
+        if (np.size(samples) == self._window_size):
             windowed = samples * self._hanning_window
             # Add 0s to double the length of the data
             padded = np.append(windowed, self._inner_pad)
@@ -117,7 +117,7 @@ class SpectralAnalyser(object):
             spectrum = np.fft.fft(padded) / self._window_size
             autopower = np.abs(spectrum * np.conj(spectrum))
             return autopower[:self._window_size]
- 
+
         return None
 
     def cepstrum(self, samples):
@@ -136,9 +136,9 @@ class StreamProcessor():
 
     def __init__(self, pathWav):
         self._wf = wave.open(pathWav, 'rb')
-        if SAMPLE_RATE: 
+        if SAMPLE_RATE:
             self._sample_rate = self._wf.getframerate()
-        else: 
+        else:
             self._sample_rate = SAMPLE_RATE
         self._spectral_analyser = SpectralAnalyser(
             window_size=WINDOW_SIZE,
@@ -177,7 +177,7 @@ class StreamProcessor():
 
 
         return filter(lambda x: x is not None, fundament_freqs)
-     
+
 
     def _process_wav_frame(self, frames):
         data_array = np.frombuffer(frames, dtype=np.int16)
@@ -194,7 +194,7 @@ class StreamProcessor():
         if freq0:
             # Onset detected
             # print("Note detected; fundamental frequency: ", freq0)
-            midi_note_value = int(hz_to_midi(freq0)[0]) 
+            midi_note_value = int(hz_to_midi(freq0)[0])
             # print("Midi note value: ", midi_note_value)
             # fluidsynth.play_Note(midi_note_value, 0, 100)
             return midi_note_value
