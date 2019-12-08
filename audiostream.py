@@ -189,10 +189,12 @@ class StreamProcessor():
         freq0 = self._spectral_analyser.process_data(data)
         if freq0:
             # Onset detected
-            # print("Note detected; fundamental frequency: ", freq0)
+            if not FROM_FILE:
+                print("Note detected; fundamental frequency: ", freq0)
             midi_note_value = int(hz_to_midi(freq0)[0])
-            # print("Midi note value: ", midi_note_value)
-            # fluidsynth.play_Note(midi_note_value, 0, 100)
+            if not FROM_FILE:
+                print("Midi note value: ", midi_note_value)
+            fluidsynth.play_Note(midi_note_value, 0, 100)
             return midi_note_value
 
         return None
