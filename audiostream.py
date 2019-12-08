@@ -19,7 +19,6 @@ import wave
 
 
 class SpectralAnalyser(object):
-
     # guitar frequency range
     FREQUENCY_RANGE = (80, 1200)
 
@@ -58,14 +57,14 @@ class SpectralAnalyser(object):
         """
         last_spectrum = self._last_spectrum
         flux = sum([max(spectrum[n] - last_spectrum[n], 0)
-            for n in xrange(self._window_size)])
+                    for n in xrange(self._window_size)])
         self._last_flux.append(flux)
 
         thresholded = np.mean(
             self._get_flux_for_thresholding()) * THRESHOLD_MULTIPLIER
         prunned = flux - thresholded if thresholded <= flux else 0
         peak = prunned if prunned > self._last_prunned_flux else 0
-        self._last_prunned_flux  = prunned
+        self._last_prunned_flux = prunned
         return peak
 
     def find_fundamental_freq(self, samples):
@@ -125,13 +124,13 @@ class SpectralAnalyser(object):
         Calculates the complex cepstrum of a real sequence.
         """
         spectrum = np.fft.fft(samples)
-        log_spectrum = np.log(np.abs(spectrum)) # TODO check divide by zero error in test_data/IDMT-SMT-GUITAR_V2/dataset1/Ibanez Power Strat Clean Neck HU
+        log_spectrum = np.log(np.abs(
+            spectrum))  # TODO check divide by zero error in test_data/IDMT-SMT-GUITAR_V2/dataset1/Ibanez Power Strat Clean Neck HU
         cepstrum = np.fft.ifft(log_spectrum).real
         return cepstrum
 
 
 class StreamProcessor():
-
     FREQS_BUF_SIZE = 11
 
     def __init__(self, pathWav):
@@ -175,9 +174,7 @@ class StreamProcessor():
             self._stream.close()
             pya.terminate()
 
-
         return filter(lambda x: x is not None, fundament_freqs)
-
 
     def _process_wav_frame(self, frames):
         data_array = np.frombuffer(frames, dtype=np.int16)
@@ -187,7 +184,6 @@ class StreamProcessor():
         data_array = np.fromstring(data, dtype=np.int16)
         self._process_data(data_array)
         return (data, paContinue)
-
 
     def _process_data(self, data):
         freq0 = self._spectral_analyser.process_data(data)
@@ -202,7 +198,7 @@ class StreamProcessor():
         return None
 
 
-
 if __name__ == '__main__':
-    stream_proc = StreamProcessor("test_data/IDMT-SMT-GUITAR_V2/dataset1/Fender Strat Clean Neck SC/audio/G53-40100-1111-00001.wav")
+    stream_proc = StreamProcessor(
+        "test_data/IDMT-SMT-GUITAR_V2/dataset1/Fender Strat Clean Neck SC/audio/G53-40100-1111-00001.wav")
     stream_proc.run()
