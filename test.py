@@ -37,7 +37,10 @@ class Test(object):
             # print('found = ' + str(pitches))
             filenameWithoutExt = splitext(filename)[0]
             tree = ET.parse(os.path.join(folderPath + "/annotation/", filenameWithoutExt + ".xml"))
-            actualPitches = [int(tree.getroot()[1][0][0].text)]
+            actualPitches = []
+            for event in tree.getroot().find('transcription').findall('event'):
+                actualPitches.append(event.find('pitch').text)
+
             allActualPitches.append(actualPitches)
 
             for pitch in actualPitches:
