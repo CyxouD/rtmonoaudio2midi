@@ -24,7 +24,7 @@ class Test(object):
         files = [];
 
         for filename in sorted(os.listdir(path)):
-            if os.path.isfile(os.path.join(path, filename)):
+            if os.path.isfile(os.path.join(path, filename)) and filename.endswith('.wav'):
                 files.append(filename)
         allFoundPitches = []
         allActualPitches = []
