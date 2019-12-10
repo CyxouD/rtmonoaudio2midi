@@ -13,10 +13,12 @@ DELAYS_SECONDS_BETWEEN_PLAYING = 2;
 class Test(object):
 
     def __init__(self):
+        # single notes
         self.process_folder("test_data/IDMT-SMT-GUITAR_V2/dataset1/Fender Strat Clean Neck SC")
         self.process_folder("test_data/IDMT-SMT-GUITAR_V2/dataset1/Ibanez Power Strat Clean Bridge HU")
         self.process_folder("test_data/IDMT-SMT-GUITAR_V2/dataset1/Ibanez Power Strat Clean Bridge+Neck SC")
         self.process_folder("test_data/IDMT-SMT-GUITAR_V2/dataset1/Ibanez Power Strat Clean Neck HU")
+        # monophonic songs
 
     def process_folder(self, folderPath):
         print(folderPath)

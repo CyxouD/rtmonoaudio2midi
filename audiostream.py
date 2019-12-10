@@ -52,8 +52,10 @@ class SpectralAnalyser(object):
 
     def find_onset(self, spectrum):
         """
-        Calculates the difference between the current and last spectrum,
+        Calculates the difference between the current and last spectrum (Spectral Flux),
         then applies a thresholding function and checks if a peak occurred.
+        my comment: looks like use Positive Flux http://www.mazurka.org.uk/software/sv/plugin/MzSpectralFlux/,
+        but without taking Math.sqrt in the end. TODO is it OK?
         """
         last_spectrum = self._last_spectrum
         flux = sum([max(spectrum[n] - last_spectrum[n], 0)
