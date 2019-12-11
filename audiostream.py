@@ -179,7 +179,8 @@ class StreamProcessor():
         return filter(lambda x: x is not None, fundament_freqs)
 
     def _process_wav_frame(self, frames):
-        data_array = np.frombuffer(frames, dtype=np.int16)
+        # data_array = np.frombuffer(frames, 'b').reshape(-1, 3)[:, 1:].flatten().view('i2') # for polyphonic
+        data_array = np.frombuffer(frames, dtype=np.int16) # for monophonic
         return self._process_data(data_array)
 
     def _process_stream_frame(self, data, frame_count, time_info, status_flag):
