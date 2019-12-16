@@ -49,7 +49,7 @@ class Test(object):
             tree = ET.parse(os.path.join(folderPath + "/annotation/", filenameWithoutExt + ".xml"))
             actualPitches = []
             for event in tree.getroot().find('transcription').findall('event'):
-                actualPitches.append(event.find('pitch').text)
+                actualPitches.append(int(event.find('pitch').text))
             print('actual = ' + str(actualPitches))
 
             allActualPitches.append(actualPitches)
