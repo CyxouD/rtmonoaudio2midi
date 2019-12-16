@@ -16,6 +16,8 @@ from midi import hz_to_midi, RTNote
 from mingus.midi import fluidsynth
 from app_setup import SOUNDFONT
 import wave
+from chart import Chart
+import collections
 
 
 class SpectralAnalyser(object):
@@ -33,6 +35,7 @@ class SpectralAnalyser(object):
         assert self._thresholding_window_size <= segments_buf
 
         self._last_spectrum = np.zeros(window_size, dtype=np.int16)
+        self._amplitudes = []
         self._last_flux = deque(
             np.zeros(segments_buf, dtype=np.int16), segments_buf)
         self._last_prunned_flux = 0
@@ -88,8 +91,9 @@ class SpectralAnalyser(object):
         return freq0
 
     def process_data(self, data):
-        spectrum = self.autopower_spectrum(data)
+        self._amplitudes.extend(data)
 
+        spectrum = self.autopower_spectrum(data)
         if spectrum != None:
             onset = self.find_onset(spectrum)
             self._last_spectrum = spectrum
@@ -130,6 +134,12 @@ class SpectralAnalyser(object):
             spectrum))  # TODO check divide by zero error in test_data/IDMT-SMT-GUITAR_V2/dataset1/Ibanez Power Strat Clean Neck HU
         cepstrum = np.fft.ifft(log_spectrum).real
         return cepstrum
+
+    def getFluxValues(self):
+        return list(self._last_flux)
+
+    def getAmplitudes(self):
+        return self._amplitudes
 
 
 class StreamProcessor():
@@ -177,11 +187,14 @@ class StreamProcessor():
             self._stream.close()
             pya.terminate()
 
-        return filter(lambda x: x is not None, fundament_freqs)
+        Result = collections.namedtuple('Result',
+                                        ['fundamental_frequencies', 'amplitudes', 'flux_values', 'window_size'])
+        return Result(filter(lambda x: x is not None, fundament_freqs), self._spectral_analyser.getAmplitudes(),
+                      self._spectral_analyser.getFluxValues(), WINDOW_SIZE)
 
     def _process_wav_frame(self, frames):
         # data_array = np.frombuffer(frames, 'b').reshape(-1, 3)[:, 1:].flatten().view('i2') # for polyphonic
-        data_array = np.frombuffer(frames, dtype=np.int16) # for monophonic
+        data_array = np.frombuffer(frames, dtype=np.int16)  # for monophonic
         return self._process_data(data_array)
 
     def _process_stream_frame(self, data, frame_count, time_info, status_flag):
@@ -206,5 +219,7 @@ class StreamProcessor():
 
 if __name__ == '__main__':
     stream_proc = StreamProcessor(
-        "test_data/IDMT-SMT-GUITAR_V2/dataset1/Fender Strat Clean Neck SC/audio/G53-40100-1111-00001.wav")
-    stream_proc.run()
+        "test_data/IDMT-SMT-GUITAR_V2/dataset1/Fender Strat Clean Neck SC/audio/G53-43103-1111-00004.wav")
+    result = stream_proc.run()
+    Chart.showSignalAndFlux(result.amplitudes, result.flux_values,
+                            result.window_size)
