@@ -62,7 +62,7 @@ class SpectralAnalyser(object):
         """
         last_spectrum = self._last_spectrum
         flux = sqrt(sum([max(pow(spectrum[n] - last_spectrum[n], 2), 0)
-                    for n in xrange(self._window_size)]))
+                         for n in xrange(self._window_size)]))
         self._last_flux.append(flux)
 
         thresholded = np.mean(
