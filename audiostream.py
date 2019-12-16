@@ -152,8 +152,8 @@ class SpectralAnalyser(object):
 class StreamProcessor:
     FREQS_BUF_SIZE = 11
 
-    def __init__(self, pathWav, print_notes=False):
-        self._print_notes = print_notes
+    def __init__(self, pathWav, play_notes=False):
+        self._play_notes = play_notes
         self._wf = wave.open(pathWav, 'rb')
         if FROM_FILE:
             self._sample_rate = self._wf.getframerate()
@@ -216,12 +216,12 @@ class StreamProcessor:
         freq0 = self._spectral_analyser.process_data(data)
         if freq0:
             # Onset detected
-            if not FROM_FILE or self._print_notes:
+            if not FROM_FILE or self._play_notes:
                 print("Note detected; fundamental frequency: ", freq0)
             midi_note_value = int(hz_to_midi(freq0)[0])
-            if not FROM_FILE or self._print_notes:
+            if not FROM_FILE or self._play_notes:
                 print("Midi note value: ", midi_note_value)
-            fluidsynth.play_Note(midi_note_value, 0, 100)
+                fluidsynth.play_Note(midi_note_value, 0, 100)
             return midi_note_value
 
         return None
@@ -230,7 +230,7 @@ class StreamProcessor:
 if __name__ == '__main__':
     stream_proc = StreamProcessor(
         "test_data/IDMT-SMT-GUITAR_V2/dataset1/Fender Strat Clean Neck SC/audio/G53-43103-1111-00004.wav",
-        print_notes=True)
+        play_notes=True)
     result = stream_proc.run()
     Chart.showSignalAndFlux(result.amplitudes, result.flux_values,
                             result.window_size, result.onset_flux)
