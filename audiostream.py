@@ -152,7 +152,8 @@ class SpectralAnalyser(object):
 class StreamProcessor:
     FREQS_BUF_SIZE = 11
 
-    def __init__(self, pathWav, play_notes=False):
+    def __init__(self, pathWav, bits_per_sample, play_notes=False):
+        self._bits_per_sample = bits_per_sample;
         self._play_notes = play_notes
         self._wf = wave.open(pathWav, 'rb')
         if FROM_FILE:
@@ -203,8 +204,12 @@ class StreamProcessor:
                       self._spectral_analyser.getOnsetFluxValues())
 
     def _process_wav_frame(self, frames):
-        # data_array = np.frombuffer(frames, 'b').reshape(-1, 3)[:, 1:].flatten().view('i2') # for polyphonic
-        data_array = np.frombuffer(frames, dtype=np.int16)  # for monophonic
+        if self._bits_per_sample == 24:
+            data_array = np.frombuffer(frames, 'b').reshape(-1, 3)[:, 1:].flatten().view('i2')
+        elif self._bits_per_sample == 16:
+            data_array = np.frombuffer(frames, dtype=np.int16)
+        else:
+            raise Exception('Not handled bits per sample = ' + self._bits_per_sample)
         return self._process_data(data_array)
 
     def _process_stream_frame(self, data, frame_count, time_info, status_flag):
@@ -230,6 +235,7 @@ class StreamProcessor:
 if __name__ == '__main__':
     stream_proc = StreamProcessor(
         "test_data/IDMT-SMT-GUITAR_V2/dataset1/Fender Strat Clean Neck SC/audio/G53-43103-1111-00004.wav",
+        bits_per_sample=16,
         play_notes=True)
     result = stream_proc.run()
     Chart.showSignalAndFlux(result.amplitudes, result.flux_values,

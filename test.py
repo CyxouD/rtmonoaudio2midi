@@ -43,7 +43,7 @@ class Test(object):
         allActualPitches = []
         for filename in files:
             print(filename)
-            result = StreamProcessor(os.path.join(path, filename)).run()
+            result = StreamProcessor(os.path.join(path, filename), bits_per_sample=16).run()
             allFoundPitches.append(result.fundamental_frequencies)
             print('found = ' + str(result.fundamental_frequencies))
             filenameWithoutExt = splitext(filename)[0]
