@@ -39,6 +39,7 @@ class SpectralAnalyser(object):
         self._amplitudes = []
         self._last_flux = deque(
             np.zeros(segments_buf, dtype=np.int16), segments_buf)
+        self._onset_flux = []
         self._last_prunned_flux = 0
 
         self._hanning_window = np.hanning(window_size)
@@ -70,6 +71,9 @@ class SpectralAnalyser(object):
         prunned = flux - thresholded if thresholded <= flux else 0
         peak = prunned if prunned > self._last_prunned_flux else 0
         self._last_prunned_flux = prunned
+        if peak and not self._first_peak:
+            self._onset_flux.append(flux)
+
         return peak
 
     def find_fundamental_freq(self, samples):
@@ -138,6 +142,9 @@ class SpectralAnalyser(object):
     def getFluxValues(self):
         return list(self._last_flux)
 
+    def getOnsetFluxValues(self):
+        return self._onset_flux;
+
     def getAmplitudes(self):
         return self._amplitudes
 
@@ -188,9 +195,11 @@ class StreamProcessor():
             pya.terminate()
 
         Result = collections.namedtuple('Result',
-                                        ['fundamental_frequencies', 'amplitudes', 'flux_values', 'window_size'])
+                                        ['fundamental_frequencies', 'amplitudes', 'flux_values', 'window_size',
+                                         'onset_flux'])
         return Result(filter(lambda x: x is not None, fundament_freqs), self._spectral_analyser.getAmplitudes(),
-                      self._spectral_analyser.getFluxValues(), WINDOW_SIZE)
+                      self._spectral_analyser.getFluxValues(), WINDOW_SIZE,
+                      self._spectral_analyser.getOnsetFluxValues())
 
     def _process_wav_frame(self, frames):
         # data_array = np.frombuffer(frames, 'b').reshape(-1, 3)[:, 1:].flatten().view('i2') # for polyphonic
@@ -222,4 +231,4 @@ if __name__ == '__main__':
         "test_data/IDMT-SMT-GUITAR_V2/dataset1/Fender Strat Clean Neck SC/audio/G53-43103-1111-00004.wav")
     result = stream_proc.run()
     Chart.showSignalAndFlux(result.amplitudes, result.flux_values,
-                            result.window_size)
+                            result.window_size, result.onset_flux)

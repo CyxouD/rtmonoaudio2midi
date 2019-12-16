@@ -66,7 +66,7 @@ class Test(object):
             time.sleep(DELAYS_SECONDS_BETWEEN_PLAYING)
 
             Chart.showSignalAndFlux(result.amplitudes, result.flux_values,
-                                    result.window_size)
+                                    result.window_size, result.onset_flux)
 
         print('containsAnyActualRatio = ' + str(Metrics.containsAnyActualRatio(allFoundPitches, allActualPitches)))
         print('containsAllActualRatio = ' + str(Metrics.containsAllActualRatio(allFoundPitches, allActualPitches)))
