@@ -137,7 +137,7 @@ class StreamProcessor():
 
     def __init__(self, pathWav):
         self._wf = wave.open(pathWav, 'rb')
-        if SAMPLE_RATE:
+        if FROM_FILE:
             self._sample_rate = self._wf.getframerate()
         else:
             self._sample_rate = SAMPLE_RATE
