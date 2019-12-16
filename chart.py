@@ -18,4 +18,7 @@ class Chart:
                  scaled_flux_values, '-rD',
                  markevery=markers)
 
+        plt.xlabel('frames')
+        plt.ylabel('frequency / scaled flux')
+
         plt.show()
