@@ -68,9 +68,9 @@ class Test(object):
             Chart.showSignalAndFlux(result.amplitudes, result.flux_values,
                                     result.window_size)
 
-        print('containsAnyActualRatio = ' + Metrics.containsAnyActualRatio(allFoundPitches, allActualPitches))
-        print('containsAllActualRatio = ' + Metrics.containsAllActualRatio(allFoundPitches, allActualPitches))
-        print('totalEqualityActualRatio = ' + Metrics.totalEqualityActualRatio(allFoundPitches, allActualPitches))
+        print('containsAnyActualRatio = ' + str(Metrics.containsAnyActualRatio(allFoundPitches, allActualPitches)))
+        print('containsAllActualRatio = ' + str(Metrics.containsAllActualRatio(allFoundPitches, allActualPitches)))
+        print('totalEqualityActualRatio = ' + str(Metrics.totalEqualityActualRatio(allFoundPitches, allActualPitches)))
         # print('actual = ' + actualPitches)
         # print(
         #     np.sum(np.array(allFoundPitches) == np.array(allActualPitches)) / len(allActualPitches))  # not working now
