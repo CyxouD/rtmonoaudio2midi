@@ -144,7 +144,8 @@ class StreamProcessor():
         self._spectral_analyser = SpectralAnalyser(
             window_size=WINDOW_SIZE,
             sample_rate=self._sample_rate,
-            segments_buf=RING_BUFFER_SIZE)
+            segments_buf=self._wf.getnframes() / WINDOW_SIZE if FROM_FILE else RING_BUFFER_SIZE)
+
         fluidsynth.init(SOUNDFONT)
 
     def run(self):
