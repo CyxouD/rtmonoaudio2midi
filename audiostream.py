@@ -57,12 +57,11 @@ class SpectralAnalyser(object):
         """
         Calculates the difference between the current and last spectrum (Spectral Flux),
         then applies a thresholding function and checks if a peak occurred.
-        my comment: looks like use Positive Flux http://www.mazurka.org.uk/software/sv/plugin/MzSpectralFlux/,
-        but without taking Math.sqrt in the end. TODO is it OK?
+        my comment: took from http://www.mazurka.org.uk/software/sv/plugin/MzSpectralFlux/ (Positive Flux)
         """
         last_spectrum = self._last_spectrum
-        flux = sum([max(spectrum[n] - last_spectrum[n], 0)
-                    for n in xrange(self._window_size)])
+        flux = sqrt(sum([max(pow(spectrum[n] - last_spectrum[n], 2), 0)
+                    for n in xrange(self._window_size)]))
         self._last_flux.append(flux)
 
         thresholded = np.mean(
