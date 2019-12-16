@@ -7,7 +7,7 @@ from mingus.midi import fluidsynth
 import time
 
 from chart import Chart
-from metrics import Metrics
+from numeric_metrics import NumericMetrics
 from midi import create_midi_file_with_notes, Note
 
 DELAYS_SECONDS_BETWEEN_PLAYING = 2;
@@ -68,9 +68,9 @@ class Test(object):
             Chart.showSignalAndFlux(result.amplitudes, result.flux_values,
                                     result.window_size, result.onset_flux)
 
-        print('containsAnyActualRatio = ' + str(Metrics.containsAnyActualRatio(allFoundPitches, allActualPitches)))
-        print('containsAllActualRatio = ' + str(Metrics.containsAllActualRatio(allFoundPitches, allActualPitches)))
-        print('totalEqualityActualRatio = ' + str(Metrics.totalEqualityActualRatio(allFoundPitches, allActualPitches)))
+        print('containsAnyActualRatio = ' + str(NumericMetrics.containsAnyActualRatio(allFoundPitches, allActualPitches)))
+        print('containsAllActualRatio = ' + str(NumericMetrics.containsAllActualRatio(allFoundPitches, allActualPitches)))
+        print('totalEqualityActualRatio = ' + str(NumericMetrics.totalEqualityActualRatio(allFoundPitches, allActualPitches)))
         # print('actual = ' + actualPitches)
         # print(
         #     np.sum(np.array(allFoundPitches) == np.array(allActualPitches)) / len(allActualPitches))  # not working now
