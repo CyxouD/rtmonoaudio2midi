@@ -18,6 +18,7 @@ from app_setup import SOUNDFONT
 import wave
 from chart import Chart
 import collections
+from math import sqrt, pow
 
 
 class SpectralAnalyser(object):
