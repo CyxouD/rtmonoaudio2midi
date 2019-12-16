@@ -9,6 +9,7 @@ import time
 from chart import Chart
 from numeric_metrics import NumericMetrics
 from midi import create_midi_file_with_notes, Note
+from table_metrics import TableMetrics
 
 DELAYS_SECONDS_BETWEEN_PLAYING = 2;
 
@@ -68,9 +69,8 @@ class Test(object):
             Chart.showSignalAndFlux(result.amplitudes, result.flux_values,
                                     result.window_size, result.onset_flux)
 
-        print('containsAnyActualRatio = ' + str(NumericMetrics.containsAnyActualRatio(allFoundPitches, allActualPitches)))
-        print('containsAllActualRatio = ' + str(NumericMetrics.containsAllActualRatio(allFoundPitches, allActualPitches)))
-        print('totalEqualityActualRatio = ' + str(NumericMetrics.totalEqualityActualRatio(allFoundPitches, allActualPitches)))
+        TableMetrics.numeric_metrics_in_table(allActualPitches, allFoundPitches)
+
         # print('actual = ' + actualPitches)
         # print(
         #     np.sum(np.array(allFoundPitches) == np.array(allActualPitches)) / len(allActualPitches))  # not working now
