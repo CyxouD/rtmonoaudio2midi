@@ -8,7 +8,7 @@ import time
 
 from chart import Chart
 from numeric_metrics import NumericMetrics
-from midi import create_midi_file_with_notes, Note
+from midi import create_midi_file_with_notes, Note, hz_to_midi
 from table_metrics import TableMetrics
 
 DELAYS_SECONDS_BETWEEN_PLAYING = 2;
@@ -44,8 +44,10 @@ class Test(object):
         for filename in files:
             print(filename)
             result = StreamProcessor(os.path.join(path, filename), bits_per_sample=16).run()
-            allFoundPitches.append(result.fundamental_frequencies)
-            print('found = ' + str(result.fundamental_frequencies))
+            # TODO improve round function
+            found_pitches = map(lambda midi: int(round(midi)), list(hz_to_midi(result.fundamental_frequencies)))
+            allFoundPitches.append(found_pitches)
+            print('found = ' + str(found_pitches))
             filenameWithoutExt = splitext(filename)[0]
             tree = ET.parse(os.path.join(folderPath + "/annotation/", filenameWithoutExt + ".xml"))
             actualPitches = []
@@ -60,7 +62,7 @@ class Test(object):
                 fluidsynth.play_Note(pitch, 0, 100)
             time.sleep(DELAYS_SECONDS_BETWEEN_PLAYING)
 
-            for pitch in result.fundamental_frequencies:
+            for pitch in found_pitches:
                 print('Playing found pitch: ' + str(pitch) + '...')
                 fluidsynth.play_Note(pitch, 0, 100)
             # create_midi_file_with_notes('test', [Note(pitches[0], 100, 0.2, 0.5)] , 140)
