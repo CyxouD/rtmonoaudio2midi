@@ -11,7 +11,7 @@ from numeric_metrics import NumericMetrics
 from midi import create_midi_file_with_notes, Note, hz_to_midi
 from table_metrics import TableMetrics
 
-DELAYS_SECONDS_BETWEEN_PLAYING = 2;
+DELAYS_SECONDS_BETWEEN_PLAYING = 0
 
 
 class Test(object):
