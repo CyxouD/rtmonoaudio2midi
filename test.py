@@ -69,7 +69,8 @@ class Test(object):
             time.sleep(DELAYS_SECONDS_BETWEEN_PLAYING)
 
             Chart.showSignalAndFlux(result.amplitudes, result.flux_values,
-                                    result.window_size, result.onset_flux)
+                                    result.window_size, result.onset_flux, result.local_mean_thresholds,
+                                    result.exponential_decay_thresholds)
 
         TableMetrics.numeric_metrics_in_table(allActualPitches, allFoundPitches)
 

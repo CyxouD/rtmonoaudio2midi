@@ -29,6 +29,7 @@ class SpectralAnalyser(object):
 
     def __init__(self, window_size, sample_rate, local_max_window, local_mean_range_multiplier, local_mean_threshold,
                  exponential_decay_threshold_parameter):
+        self._framesData = -1  # initialise later
         self._window_size = window_size
         self._sample_rate = sample_rate
         self._w = local_max_window
@@ -40,6 +41,8 @@ class SpectralAnalyser(object):
         self._amplitudes = []
         self._fluxs = []
         self._onset_flux = []
+        self._local_mean_thresholds = []
+        self._exponential_decay_thresholds = []
 
         self._hanning_window = np.hanning(window_size)
         # The zeros which will be used to double each segment size
@@ -113,6 +116,7 @@ class SpectralAnalyser(object):
         return freq0
 
     def process_data(self, windows_data):
+        self._framesData = len(windows_data)
         self._amplitudes = self.flatten(windows_data)
 
         self.spectrums = self.calculate_spectrums(windows_data)
@@ -186,6 +190,12 @@ class SpectralAnalyser(object):
     def getAmplitudes(self):
         return self._amplitudes
 
+    def getLocalMeanThresholds(self):
+        return list(map(self.local_mean_threshold, range(0, self._framesData)))
+
+    def getExponentialDecayThresholds(self):
+        return list(map(self.exponential_decay_threshold, range(0, self._framesData)))
+
 
 class StreamProcessor:
     def __init__(self, pathWav, bits_per_sample, local_max_window=LOCAL_MAX_WINDOW,
@@ -237,10 +247,14 @@ class StreamProcessor:
 
         Result = collections.namedtuple('Result',
                                         ['fundamental_frequencies', 'amplitudes', 'flux_values', 'window_size',
-                                         'onset_flux'])
-        return Result(filter(lambda x: x is not None, fundament_freqs), self._spectral_analyser.getAmplitudes(),
-                      self._spectral_analyser.getFluxValues(), WINDOW_SIZE,
-                      self._spectral_analyser.getOnsetFluxValues())
+                                         'onset_flux', 'local_mean_thresholds', 'exponential_decay_thresholds'])
+        # TODO get rid of filter
+        return Result((filter(lambda x: x is not None, fundament_freqs)),
+                      amplitudes=self._spectral_analyser.getAmplitudes(),
+                      flux_values=self._spectral_analyser.getFluxValues(), window_size=WINDOW_SIZE,
+                      onset_flux=self._spectral_analyser.getOnsetFluxValues(),
+                      local_mean_thresholds=self._spectral_analyser.getLocalMeanThresholds(),
+                      exponential_decay_thresholds=self._spectral_analyser.getExponentialDecayThresholds())
 
     def chunks(self, lst, n):
         """Yield successive n-sized chunks from lst."""
@@ -285,6 +299,6 @@ if __name__ == '__main__':
         bits_per_sample=16,
         play_notes=True)
     result = stream_proc.run()
-    print(result.onset_flux)
-    # Chart.showSignalAndFlux(result.amplitudes, result.flux_values,
-    #                         result.window_size, result.onset_flux)
+    Chart.showSignalAndFlux(result.amplitudes, result.flux_values,
+                            result.window_size, result.onset_flux, result.local_mean_thresholds,
+                            result.exponential_decay_thresholds)
