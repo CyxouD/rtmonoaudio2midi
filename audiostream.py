@@ -12,6 +12,7 @@ from app_setup import (
     LOCAL_MAX_WINDOW,
     LOCAL_MEAN_RANGE_MULTIPLIER,
     LOCAL_MEAN_THRESHOLD,
+    EXPONENTIAL_DECAY_THRESHOLD_PARAMETER,
     SAMPLE_RATE)
 from midi import hz_to_midi, RTNote
 from mingus.midi import fluidsynth
@@ -26,12 +27,14 @@ class SpectralAnalyser(object):
     # guitar frequency range
     FREQUENCY_RANGE = (80, 1200)
 
-    def __init__(self, window_size, sample_rate, local_max_window, local_mean_range_multiplier, local_mean_threshold):
+    def __init__(self, window_size, sample_rate, local_max_window, local_mean_range_multiplier, local_mean_threshold,
+                 exponential_decay_threshold_parameter):
         self._window_size = window_size
         self._sample_rate = sample_rate
         self._w = local_max_window
         self._m = local_mean_range_multiplier
         self._e = local_mean_threshold
+        self._a = exponential_decay_threshold_parameter
 
         self.spectrums = []
         self._amplitudes = []
@@ -51,14 +54,18 @@ class SpectralAnalyser(object):
 
         is_flux_local_max = self.is_flux_local_max(n)
         is_more_local_mean_threshold = self.is_more_local_mean_threshold(n)
+        is_more_exponential_decay_threshold = self.is_more_exponential_decay_threshold(n)
 
-        is_onset = is_flux_local_max and is_more_local_mean_threshold
+        is_onset = is_flux_local_max and is_more_local_mean_threshold and is_more_exponential_decay_threshold
         if is_onset:
             print('n', n)
+            print('flux', self._fluxs[n])
             print('find_spectral_flux_local_max', self.find_spectral_flux_local_max(n))
             print('is_flux_local_max', is_flux_local_max)
             print('local_mean_threshold', self.local_mean_threshold(n))
             print('is_more_local_mean_threshold', is_more_local_mean_threshold)
+            print('self.exponential_decay_threshold(n-1)', self.exponential_decay_threshold(n - 1))
+            print('is_more_exponential_decay_threshold', is_more_exponential_decay_threshold)
             print('\n' * 3)
             self._onset_flux.append(self._fluxs[n])
 
@@ -78,6 +85,14 @@ class SpectralAnalyser(object):
 
     def local_mean_threshold(self, n):
         return np.mean(self._fluxs[slice(max(0, n - self._m * self._w), n + self._w + 1)]) + self._e
+
+    def is_more_exponential_decay_threshold(self, n):
+        flux = self._fluxs[n]
+        return flux >= self.exponential_decay_threshold(n - 1)
+
+    def exponential_decay_threshold(self, n):
+        flux = self._fluxs[n]
+        return max(flux, self._a * self.exponential_decay_threshold(n - 1) + (1 - self._a) * flux) if n > 0 else flux
 
     def find_fundamental_freq(self, samples):
         cepstrum = self.cepstrum(samples)
@@ -175,6 +190,7 @@ class SpectralAnalyser(object):
 class StreamProcessor:
     def __init__(self, pathWav, bits_per_sample, local_max_window=LOCAL_MAX_WINDOW,
                  local_mean_range_multiplier=LOCAL_MEAN_RANGE_MULTIPLIER, local_mean_threshold=LOCAL_MEAN_THRESHOLD,
+                 exponential_decay_threshold_parameter=EXPONENTIAL_DECAY_THRESHOLD_PARAMETER,
                  play_notes=False):
         self._bits_per_sample = bits_per_sample;
         self._play_notes = play_notes
@@ -189,7 +205,8 @@ class StreamProcessor:
             sample_rate=self._sample_rate,
             local_max_window=self._local_max_window,
             local_mean_range_multiplier=local_mean_range_multiplier,
-            local_mean_threshold=local_mean_threshold)
+            local_mean_threshold=local_mean_threshold,
+            exponential_decay_threshold_parameter=exponential_decay_threshold_parameter)
 
         fluidsynth.init(SOUNDFONT)
 
