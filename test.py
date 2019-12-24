@@ -18,18 +18,20 @@ class Test(object):
 
     def __init__(self):
         # Single notes are played on each string from the 0th fret (empty string) to the 12th fret.
-        self.process_folder("test_data/IDMT-SMT-GUITAR_V2/dataset1/Fender Strat Clean Neck SC")
-        self.process_folder("test_data/IDMT-SMT-GUITAR_V2/dataset1/Ibanez Power Strat Clean Bridge HU")
-        self.process_folder("test_data/IDMT-SMT-GUITAR_V2/dataset1/Ibanez Power Strat Clean Bridge+Neck SC")
-        self.process_folder("test_data/IDMT-SMT-GUITAR_V2/dataset1/Ibanez Power Strat Clean Neck HU")
+        self.process_folder("test_data/IDMT-SMT-GUITAR_V2/dataset1/Fender Strat Clean Neck SC", bitDepth=16)
+        self.process_folder("test_data/IDMT-SMT-GUITAR_V2/dataset1/Ibanez Power Strat Clean Bridge HU", bitDepth=16)
+        self.process_folder("test_data/IDMT-SMT-GUITAR_V2/dataset1/Ibanez Power Strat Clean Bridge+Neck SC",
+                            bitDepth=16)
+        self.process_folder("test_data/IDMT-SMT-GUITAR_V2/dataset1/Ibanez Power Strat Clean Neck HU", bitDepth=16)
 
         # monophonic songs
         # TODO include Lick1 but handle it differently from Lick10,
         #  add other Lick3, Lick4, Lick5, Lick6, Lick11, but handle that some annotations are missing
         # self.process_folder("test_data/IDMT-SMT-GUITAR_V2/dataset2",
-        #                     ['AR_Lick2_FN'])
+        #                     bitDepth=24,
+        #                     filesSubstrings=['AR_Lick2_FN'])
 
-    def process_folder(self, folderPath, filesSubstrings=None):
+    def process_folder(self, folderPath, bitDepth, filesSubstrings=None):
         print(folderPath)
         path = folderPath + "/audio/"
         files = [];
@@ -43,7 +45,7 @@ class Test(object):
         allActualPitches = []
         for filename in files:
             print(filename)
-            result = StreamProcessor(os.path.join(path, filename), bits_per_sample=16).run()
+            result = StreamProcessor(os.path.join(path, filename), bits_per_sample=bitDepth).run()
             # TODO improve round function
             found_pitches = map(lambda midi: int(round(midi)), list(hz_to_midi(result.fundamental_frequencies)))
             allFoundPitches.append(found_pitches)
