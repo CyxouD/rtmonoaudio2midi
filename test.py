@@ -1,5 +1,5 @@
 import os
-from os.path import isfile, join, splitext
+from os.path import isfile, join, splitext, exists
 from audiostream import StreamProcessor
 import xml.etree.ElementTree as ET
 import numpy as np
@@ -33,10 +33,10 @@ class Test(object):
 
     def process_folder(self, folderPath, bitDepth, filesSubstrings=None):
         print(folderPath)
-        path = folderPath + "/audio/"
+        path = folderPath + "/annotation/"
         files = [];
         for filename in sorted(os.listdir(path)):
-            if os.path.isfile(os.path.join(path, filename)) and filename.endswith('.wav') and (any(
+            if os.path.isfile(os.path.join(path, filename)) and filename.endswith('.xml') and (any(
                     filename.find(
                         substring) != -1 for substring in filesSubstrings) if filesSubstrings is not None else True):
                 files.append(filename)
@@ -45,13 +45,20 @@ class Test(object):
         allActualPitches = []
         for filename in files:
             print(filename)
-            result = StreamProcessor(os.path.join(path, filename), bits_per_sample=bitDepth).run()
+            filenameWithoutExt = splitext(filename)[0]
+
+            path_to_wav = os.path.join(folderPath + "/audio/", filenameWithoutExt + ".wav")
+
+            if not exists(path_to_wav):
+                print(path_to_wav + '- not exists')
+                continue
+
+            result = StreamProcessor(path_to_wav, bits_per_sample=bitDepth).run()
             # TODO improve round function
             found_pitches = map(lambda midi: int(round(midi)), list(hz_to_midi(result.fundamental_frequencies)))
             allFoundPitches.append(found_pitches)
             print('found = ' + str(found_pitches))
-            filenameWithoutExt = splitext(filename)[0]
-            tree = ET.parse(os.path.join(folderPath + "/annotation/", filenameWithoutExt + ".xml"))
+            tree = ET.parse(os.path.join(path, filename))
             actualPitches = []
             for event in tree.getroot().find('transcription').findall('event'):
                 actualPitches.append(int(event.find('pitch').text))
@@ -74,7 +81,10 @@ class Test(object):
                                     result.window_size, result.onset_flux, result.local_mean_thresholds,
                                     result.exponential_decay_thresholds)
 
-        TableMetrics.numeric_metrics_in_table(allActualPitches, allFoundPitches)
+        if (len(allActualPitches) != 0):
+            TableMetrics.numeric_metrics_in_table(allActualPitches, allFoundPitches)
+        else:
+            print('no actual pitches')
 
         # print('actual = ' + actualPitches)
         # print(
