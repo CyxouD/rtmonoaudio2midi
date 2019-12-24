@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<instrumentRecording>
+  <globalParameter>
+    <audioFileName>3-A2-Major 09.wav</audioFileName>
+    <instrument>EGUI</instrument>
+    <recordingDate>07.01.2013</recordingDate>
+  </globalParameter>
+  <transcription>
+    <event>
+      <pitch>54</pitch>
+      <onsetSec>0.2</onsetSec>
+      <offsetSec>2.5</offsetSec>
+      <fretNumber>9</fretNumber>
+      <stringNumber>2</stringNumber>
+      <excitationStyle>PK</excitationStyle>
+      <expressionStyle>NO</expressionStyle>
+    </event>
+    <event>
+      <pitch>61</pitch>
+      <onsetSec>0.255</onsetSec>
+      <offsetSec>2.5</offsetSec>
+      <fretNumber>11</fretNumber>
+      <stringNumber>3</stringNumber>
+      <excitationStyle>PK</excitationStyle>
+      <expressionStyle>NO</expressionStyle>
+    </event>
+    <event>
+      <pitch>66</pitch>
+      <onsetSec>0.289</onsetSec>
+      <offsetSec>2.5</offsetSec>
+      <fretNumber>11</fretNumber>
+      <stringNumber>4</stringNumber>
+      <excitationStyle>PK</excitationStyle>
+      <expressionStyle>NO</expressionStyle>
+    </event>
+    <event>
+      <pitch>70</pitch>
+      <onsetSec>0.313</onsetSec>
+      <offsetSec>2.5</offsetSec>
+      <fretNumber>11</fretNumber>
+      <stringNumber>5</stringNumber>
+      <excitationStyle>PK</excitationStyle>
+      <expressionStyle>NO</expressionStyle>
+    </event>
+    <event>
+      <pitch>73</pitch>
+      <onsetSec>0.363</onsetSec>
+      <offsetSec>2.5</offsetSec>
+      <fretNumber>9</fretNumber>
+      <stringNumber>6</stringNumber>
+      <excitationStyle>PK</excitationStyle>
+      <expressionStyle>NO</expressionStyle>
+    </event>
+  </transcription>
+</instrumentRecording> 

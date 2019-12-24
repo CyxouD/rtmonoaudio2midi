@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sonic-visualiser>
+<sv>
+  <data>
+    <model id="61" name="" sampleRate="44100" start="106496" end="1059840" type="sparse" dimensions="1" resolution="1" notifyOnAdd="true" dataset="60" />
+    <dataset id="60" dimensions="1">
+      <point frame="106496" label="New Point" />
+      <point frame="132096" label="New Point" />
+      <point frame="158464" label="New Point" />
+      <point frame="183552" label="New Point" />
+      <point frame="210432" label="New Point" />
+      <point frame="237056" label="New Point" />
+      <point frame="262656" label="New Point" />
+      <point frame="290560" label="New Point" />
+      <point frame="317952" label="New Point" />
+      <point frame="382320" label="New Point" />
+      <point frame="397260" label="New Point" />
+      <point frame="422640" label="New Point" />
+      <point frame="529740" label="New Point" />
+      <point frame="556740" label="New Point" />
+      <point frame="583740" label="New Point" />
+      <point frame="610380" label="New Point" />
+      <point frame="637380" label="New Point" />
+      <point frame="742140" label="New Point" />
+      <point frame="806580" label="New Point" />
+      <point frame="820440" label="New Point" />
+      <point frame="846000" label="New Point" />
+      <point frame="951300" label="New Point" />
+      <point frame="980100" label="New Point" />
+      <point frame="1006380" label="New Point" />
+      <point frame="1034280" label="New Point" />
+      <point frame="1059840" label="New Point" />
+    </dataset>
+  </data>
+  <display>
+    <layer id="59" type="timeinstants" name="Time Instants" model="61"  plotStyle="0" colourName="Bright Green" colour="#00ff00" darkBackground="true" />
+  </display>
+</sv>

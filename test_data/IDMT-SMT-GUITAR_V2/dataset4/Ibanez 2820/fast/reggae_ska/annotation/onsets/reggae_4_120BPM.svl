@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sonic-visualiser>
+<sv>
+  <data>
+    <model id="20" name="" sampleRate="44100" start="89010" end="946890" type="sparse" dimensions="1" resolution="1" notifyOnAdd="true" dataset="19" />
+    <dataset id="19" dimensions="1">
+      <point frame="89010" label="New Point" />
+      <point frame="110700" label="New Point" />
+      <point frame="132840" label="New Point" />
+      <point frame="154440" label="New Point" />
+      <point frame="176220" label="New Point" />
+      <point frame="198810" label="New Point" />
+      <point frame="220140" label="New Point" />
+      <point frame="242280" label="New Point" />
+      <point frame="286650" label="New Point" />
+      <point frame="301500" label="New Point" />
+      <point frame="330120" label="New Point" />
+      <point frame="374760" label="New Point" />
+      <point frame="389160" label="New Point" />
+      <point frame="418860" label="New Point" />
+      <point frame="463410" label="New Point" />
+      <point frame="477360" label="New Point" />
+      <point frame="505890" label="New Point" />
+      <point frame="550620" label="New Point" />
+      <point frame="565110" label="New Point" />
+      <point frame="594900" label="New Point" />
+      <point frame="639450" label="New Point" />
+      <point frame="653940" label="New Point" />
+      <point frame="682290" label="New Point" />
+      <point frame="726930" label="New Point" />
+      <point frame="741780" label="New Point" />
+      <point frame="770310" label="New Point" />
+      <point frame="815580" label="New Point" />
+      <point frame="830160" label="New Point" />
+      <point frame="858780" label="New Point" />
+      <point frame="904140" label="New Point" />
+      <point frame="918540" label="New Point" />
+      <point frame="946890" label="New Point" />
+    </dataset>
+  </data>
+  <display>
+    <layer id="18" type="timeinstants" name="Time Instants" model="20"  plotStyle="0" colourName="Red" colour="#800000" darkBackground="false" />
+  </display>
+</sv>

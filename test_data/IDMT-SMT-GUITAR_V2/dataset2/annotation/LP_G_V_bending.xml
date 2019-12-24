@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<instrumentRecording>
+  <globalParameter>
+    <audioFileName>\LP_G_V_bending.wav</audioFileName>
+    <instrument>EGUI</instrument>
+    <instrumentModel>Gibson Les Paul</instrumentModel>
+    <pickUpSetting>unknown</pickUpSetting>
+    <instrumentTuning>40  45  50  55  59  64</instrumentTuning>
+    <recordingDate>13-02-14</recordingDate>
+    <recordingArtist>Christian Kehling</recordingArtist>
+    <instrumentBodyMaterial>unknown</instrumentBodyMaterial>
+    <instrumentStringMaterial>Steel</instrumentStringMaterial>
+    <composer>Christian Kehling</composer>
+  </globalParameter>
+  <transcription>
+    <event>
+      <onsetSec>1.7415</onsetSec>
+      <pitch>60</pitch>
+      <offsetSec>4.1995</offsetSec>
+      <excitationStyle>PK</excitationStyle>
+      <expressionStyle>BE</expressionStyle>
+      <fretNumber>5</fretNumber>
+      <stringNumber>4</stringNumber>
+      <modulationFrequency>0</modulationFrequency>
+      <modulationFrequencyRange>0</modulationFrequencyRange>
+    </event>
+    <event>
+      <onsetSec>6.699</onsetSec>
+      <pitch>60</pitch>
+      <offsetSec>12.0882</offsetSec>
+      <excitationStyle>PK</excitationStyle>
+      <expressionStyle>BE</expressionStyle>
+      <fretNumber>5</fretNumber>
+      <stringNumber>4</stringNumber>
+      <modulationFrequency>0</modulationFrequency>
+      <modulationFrequencyRange>0</modulationFrequencyRange>
+    </event>
+    <event>
+      <onsetSec>15.0175</onsetSec>
+      <pitch>60</pitch>
+      <offsetSec>19.9696</offsetSec>
+      <excitationStyle>PK</excitationStyle>
+      <expressionStyle>BE</expressionStyle>
+      <fretNumber>5</fretNumber>
+      <stringNumber>4</stringNumber>
+      <modulationFrequency>0</modulationFrequency>
+      <modulationFrequencyRange>0</modulationFrequencyRange>
+    </event>
+  </transcription>
+</instrumentRecording> 

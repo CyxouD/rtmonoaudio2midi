@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sonic-visualiser>
+<sv>
+  <data>
+    <model id="2" name="" sampleRate="44100" start="80762" end="886545" type="sparse" dimensions="1" resolution="1" notifyOnAdd="true" dataset="1" />
+    <dataset id="1" dimensions="1">
+      <point frame="80762" label="New Point" />
+      <point frame="101992" label="New Point" />
+      <point frame="121682" label="New Point" />
+      <point frame="142098" label="New Point" />
+      <point frame="162096" label="New Point" />
+      <point frame="183590" label="New Point" />
+      <point frame="203522" label="New Point" />
+      <point frame="223674" label="New Point" />
+      <point frame="244005" label="New Point" />
+      <point frame="265528" label="New Point" />
+      <point frame="275648" label="New Point" />
+      <point frame="286304" label="New Point" />
+      <point frame="306016" label="New Point" />
+      <point frame="315968" label="New Point" />
+      <point frame="325696" label="New Point" />
+      <point frame="346140" label="New Point" />
+      <point frame="356130" label="New Point" />
+      <point frame="366480" label="New Point" />
+      <point frame="387008" label="New Point" />
+      <point frame="396288" label="New Point" />
+      <point frame="406736" label="New Point" />
+      <point frame="427140" label="New Point" />
+      <point frame="437632" label="New Point" />
+      <point frame="447872" label="New Point" />
+      <point frame="467648" label="New Point" />
+      <point frame="478260" label="New Point" />
+      <point frame="488250" label="New Point" />
+      <point frame="507960" label="New Point" />
+      <point frame="519345" label="New Point" />
+      <point frame="529830" label="New Point" />
+      <point frame="549540" label="New Point" />
+      <point frame="560448" label="New Point" />
+      <point frame="570304" label="New Point" />
+      <point frame="571590" label="New Point" />
+      <point frame="590895" label="New Point" />
+      <point frame="599805" label="New Point" />
+      <point frame="611640" label="New Point" />
+      <point frame="630720" label="New Point" />
+      <point frame="640170" label="New Point" />
+      <point frame="650745" label="New Point" />
+      <point frame="670860" label="New Point" />
+      <point frame="681300" label="New Point" />
+      <point frame="692370" label="New Point" />
+      <point frame="712192" label="New Point" />
+      <point frame="721856" label="New Point" />
+      <point frame="732224" label="New Point" />
+      <point frame="751590" label="New Point" />
+      <point frame="762975" label="New Point" />
+      <point frame="773595" label="New Point" />
+      <point frame="794070" label="New Point" />
+      <point frame="804060" label="New Point" />
+      <point frame="814410" label="New Point" />
+      <point frame="816120" label="New Point" />
+      <point frame="833664" label="New Point" />
+      <point frame="844480" label="New Point" />
+      <point frame="855296" label="New Point" />
+      <point frame="874620" label="New Point" />
+      <point frame="876414" label="New Point" />
+      <point frame="886545" label="New Point" />
+    </dataset>
+  </data>
+  <display>
+    <layer id="5" type="timeinstants" name="Time Instants" model="2"  plotStyle="0" colourName="Bright Purple" colour="#e14aff" darkBackground="true" />
+  </display>
+</sv>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sonic-visualiser>
+<sv>
+  <data>
+    <model id="14" name="" sampleRate="44100" start="75420" end="794288" type="sparse" dimensions="1" resolution="1" notifyOnAdd="true" dataset="13" />
+    <dataset id="13" dimensions="1">
+      <point frame="75420" label="New Point" />
+      <point frame="94545" label="New Point" />
+      <point frame="114030" label="New Point" />
+      <point frame="132120" label="New Point" />
+      <point frame="150705" label="New Point" />
+      <point frame="170010" label="New Point" />
+      <point frame="189315" label="New Point" />
+      <point frame="208080" label="New Point" />
+      <point frame="236896" label="New Point" />
+      <point frame="264231" label="New Point" />
+      <point frame="312768" label="New Point" />
+      <point frame="341128" label="New Point" />
+      <point frame="388157" label="New Point" />
+      <point frame="415646" label="New Point" />
+      <point frame="463936" label="New Point" />
+      <point frame="491032" label="New Point" />
+      <point frame="491728" label="New Point" />
+      <point frame="540254" label="New Point" />
+      <point frame="568106" label="New Point" />
+      <point frame="614999" label="New Point" />
+      <point frame="615439" label="New Point" />
+      <point frame="643096" label="New Point" />
+      <point frame="643968" label="New Point" />
+      <point frame="690910" label="New Point" />
+      <point frame="692032" label="New Point" />
+      <point frame="718055" label="New Point" />
+      <point frame="766344" label="New Point" />
+      <point frame="767160" label="New Point" />
+      <point frame="794288" label="New Point" />
+    </dataset>
+  </data>
+  <display>
+    <layer id="15" type="timeinstants" name="Time Instants" model="14"  plotStyle="0" colourName="Bright Red" colour="#ff0000" darkBackground="true" />
+  </display>
+</sv>

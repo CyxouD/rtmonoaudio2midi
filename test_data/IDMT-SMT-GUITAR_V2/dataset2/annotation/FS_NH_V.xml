@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<instrumentRecording>
+  <globalParameter>
+    <audioFileName>\FS_NH_V.wav</audioFileName>
+    <instrument>EGUI</instrument>
+    <instrumentModel>Fender Stratocaster</instrumentModel>
+    <pickUpSetting>unknown</pickUpSetting>
+    <instrumentTuning>40  45  50  55  59  64</instrumentTuning>
+    <recordingDate>13-02-14</recordingDate>
+    <recordingArtist>Christian Kehling</recordingArtist>
+    <instrumentBodyMaterial>unknown</instrumentBodyMaterial>
+    <instrumentStringMaterial>Steel</instrumentStringMaterial>
+    <composer>Christian Kehling</composer>
+  </globalParameter>
+  <transcription>
+    <event>
+      <onsetSec>1.7796</onsetSec>
+      <pitch>64</pitch>
+      <offsetSec>3.1889</offsetSec>
+      <excitationStyle>PK</excitationStyle>
+      <expressionStyle>HA</expressionStyle>
+      <fretNumber>5</fretNumber>
+      <stringNumber>1</stringNumber>
+      <modulationFrequency>0</modulationFrequency>
+      <modulationFrequencyRange>0</modulationFrequencyRange>
+    </event>
+    <event>
+      <onsetSec>3.4873</onsetSec>
+      <pitch>69</pitch>
+      <offsetSec>5.1942</offsetSec>
+      <excitationStyle>PK</excitationStyle>
+      <expressionStyle>HA</expressionStyle>
+      <fretNumber>5</fretNumber>
+      <stringNumber>2</stringNumber>
+      <modulationFrequency>0</modulationFrequency>
+      <modulationFrequencyRange>0</modulationFrequencyRange>
+    </event>
+    <event>
+      <onsetSec>5.6033</onsetSec>
+      <pitch>74</pitch>
+      <offsetSec>7.2766</offsetSec>
+      <excitationStyle>PK</excitationStyle>
+      <expressionStyle>HA</expressionStyle>
+      <fretNumber>5</fretNumber>
+      <stringNumber>3</stringNumber>
+      <modulationFrequency>0</modulationFrequency>
+      <modulationFrequencyRange>0</modulationFrequencyRange>
+    </event>
+    <event>
+      <onsetSec>7.7584</onsetSec>
+      <pitch>79</pitch>
+      <offsetSec>9.2982</offsetSec>
+      <excitationStyle>PK</excitationStyle>
+      <expressionStyle>HA</expressionStyle>
+      <fretNumber>5</fretNumber>
+      <stringNumber>4</stringNumber>
+      <modulationFrequency>0</modulationFrequency>
+      <modulationFrequencyRange>0</modulationFrequencyRange>
+    </event>
+    <event>
+      <onsetSec>9.9102</onsetSec>
+      <pitch>83</pitch>
+      <offsetSec>11.5513</offsetSec>
+      <excitationStyle>PK</excitationStyle>
+      <expressionStyle>HA</expressionStyle>
+      <fretNumber>5</fretNumber>
+      <stringNumber>5</stringNumber>
+      <modulationFrequency>0</modulationFrequency>
+      <modulationFrequencyRange>0</modulationFrequencyRange>
+    </event>
+    <event>
+      <onsetSec>12.1339</onsetSec>
+      <pitch>88</pitch>
+      <offsetSec>14.6314</offsetSec>
+      <excitationStyle>PK</excitationStyle>
+      <expressionStyle>HA</expressionStyle>
+      <fretNumber>5</fretNumber>
+      <stringNumber>6</stringNumber>
+      <modulationFrequency>0</modulationFrequency>
+      <modulationFrequencyRange>0</modulationFrequencyRange>
+    </event>
+  </transcription>
+</instrumentRecording> 

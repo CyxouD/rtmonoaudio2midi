@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<instrumentRecording>
+  <globalParameter>
+    <audioFileName>\FS_D_muted5.wav</audioFileName>
+    <instrument>EGUI</instrument>
+    <instrumentModel>Fender Stratocaster</instrumentModel>
+    <pickUpSetting>unknown</pickUpSetting>
+    <instrumentTuning>40  45  50  55  59  64</instrumentTuning>
+    <recordingDate>13-02-14</recordingDate>
+    <recordingArtist>Christian Kehling</recordingArtist>
+    <instrumentBodyMaterial>unknown</instrumentBodyMaterial>
+    <instrumentStringMaterial>Steel</instrumentStringMaterial>
+    <composer>Christian Kehling</composer>
+  </globalParameter>
+  <transcription>
+    <event>
+      <onsetSec>2.0796</onsetSec>
+      <pitch>55</pitch>
+      <offsetSec>3.0766</offsetSec>
+      <excitationStyle>MU</excitationStyle>
+      <expressionStyle>NO</expressionStyle>
+      <fretNumber>5</fretNumber>
+      <stringNumber>3</stringNumber>
+      <modulationFrequency>0</modulationFrequency>
+      <modulationFrequencyRange>0</modulationFrequencyRange>
+    </event>
+    <event>
+      <onsetSec>3.0926</onsetSec>
+      <pitch>55</pitch>
+      <offsetSec>4.0824</offsetSec>
+      <excitationStyle>MU</excitationStyle>
+      <expressionStyle>NO</expressionStyle>
+      <fretNumber>5</fretNumber>
+      <stringNumber>3</stringNumber>
+      <modulationFrequency>0</modulationFrequency>
+      <modulationFrequencyRange>0</modulationFrequencyRange>
+    </event>
+    <event>
+      <onsetSec>4.1433</onsetSec>
+      <pitch>55</pitch>
+      <offsetSec>5.1216</offsetSec>
+      <excitationStyle>MU</excitationStyle>
+      <expressionStyle>NO</expressionStyle>
+      <fretNumber>5</fretNumber>
+      <stringNumber>3</stringNumber>
+      <modulationFrequency>0</modulationFrequency>
+      <modulationFrequencyRange>0</modulationFrequencyRange>
+    </event>
+    <event>
+      <onsetSec>5.2274</onsetSec>
+      <pitch>55</pitch>
+      <offsetSec>5.7915</offsetSec>
+      <excitationStyle>MU</excitationStyle>
+      <expressionStyle>NO</expressionStyle>
+      <fretNumber>5</fretNumber>
+      <stringNumber>3</stringNumber>
+      <modulationFrequency>0</modulationFrequency>
+      <modulationFrequencyRange>0</modulationFrequencyRange>
+    </event>
+    <event>
+      <onsetSec>6.4769</onsetSec>
+      <pitch>55</pitch>
+      <offsetSec>6.7857</offsetSec>
+      <excitationStyle>MU</excitationStyle>
+      <expressionStyle>NO</expressionStyle>
+      <fretNumber>5</fretNumber>
+      <stringNumber>3</stringNumber>
+      <modulationFrequency>0</modulationFrequency>
+      <modulationFrequencyRange>0</modulationFrequencyRange>
+    </event>
+  </transcription>
+</instrumentRecording> 

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sonic-visualiser>
+<sv>
+  <data>
+    <model id="30" name="" sampleRate="44100" start="87744" end="938560" type="sparse" dimensions="1" resolution="1" notifyOnAdd="true" dataset="29" />
+    <dataset id="29" dimensions="1">
+      <point frame="87744" label="New Point" />
+      <point frame="109504" label="New Point" />
+      <point frame="132096" label="New Point" />
+      <point frame="154624" label="New Point" />
+      <point frame="176256" label="New Point" />
+      <point frame="197952" label="New Point" />
+      <point frame="220096" label="New Point" />
+      <point frame="241792" label="New Point" />
+      <point frame="262976" label="New Point" />
+      <point frame="285568" label="New Point" />
+      <point frame="320128" label="New Point" />
+      <point frame="342208" label="New Point" />
+      <point frame="385088" label="New Point" />
+      <point frame="406336" label="New Point" />
+      <point frame="441152" label="New Point" />
+      <point frame="463744" label="New Point" />
+      <point frame="496960" label="New Point" />
+      <point frame="517952" label="New Point" />
+      <point frame="563904" label="New Point" />
+      <point frame="585088" label="New Point" />
+      <point frame="617408" label="New Point" />
+      <point frame="639936" label="New Point" />
+      <point frame="674176" label="New Point" />
+      <point frame="695744" label="New Point" />
+      <point frame="739456" label="New Point" />
+      <point frame="761600" label="New Point" />
+      <point frame="791424" label="New Point" />
+      <point frame="814400" label="New Point" />
+      <point frame="848384" label="New Point" />
+      <point frame="869632" label="New Point" />
+      <point frame="916800" label="New Point" />
+      <point frame="938560" label="New Point" />
+    </dataset>
+  </data>
+  <display>
+    <layer id="28" type="timeinstants" name="Time Instants" model="30"  plotStyle="0" colourName="Bright Purple" colour="#e14aff" darkBackground="true" />
+  </display>
+</sv>

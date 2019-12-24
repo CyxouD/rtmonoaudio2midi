@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sonic-visualiser>
+<sv>
+  <data>
+    <model id="10" name="" sampleRate="44100" start="78208" end="852416" type="sparse" dimensions="1" resolution="1" notifyOnAdd="true" dataset="9" />
+    <dataset id="9" dimensions="1">
+      <point frame="78208" label="New Point" />
+      <point frame="98560" label="New Point" />
+      <point frame="117888" label="New Point" />
+      <point frame="136960" label="New Point" />
+      <point frame="156416" label="New Point" />
+      <point frame="176128" label="New Point" />
+      <point frame="195712" label="New Point" />
+      <point frame="215808" label="New Point" />
+      <point frame="235648" label="New Point" />
+      <point frame="245312" label="New Point" />
+      <point frame="255360" label="New Point" />
+      <point frame="263936" label="New Point" />
+      <point frame="274496" label="New Point" />
+      <point frame="284096" label="New Point" />
+      <point frame="292672" label="New Point" />
+      <point frame="302976" label="New Point" />
+      <point frame="312640" label="New Point" />
+      <point frame="322432" label="New Point" />
+      <point frame="332800" label="New Point" />
+      <point frame="341504" label="New Point" />
+      <point frame="352320" label="New Point" />
+      <point frame="362496" label="New Point" />
+      <point frame="371392" label="New Point" />
+      <point frame="382016" label="New Point" />
+      <point frame="391936" label="New Point" />
+      <point frame="401664" label="New Point" />
+      <point frame="412736" label="New Point" />
+      <point frame="421376" label="New Point" />
+      <point frame="432128" label="New Point" />
+      <point frame="442048" label="New Point" />
+      <point frame="451136" label="New Point" />
+      <point frame="461504" label="New Point" />
+      <point frame="470464" label="New Point" />
+      <point frame="480320" label="New Point" />
+      <point frame="490688" label="New Point" />
+      <point frame="500224" label="New Point" />
+      <point frame="510016" label="New Point" />
+      <point frame="520384" label="New Point" />
+      <point frame="529280" label="New Point" />
+      <point frame="539840" label="New Point" />
+      <point frame="549952" label="New Point" />
+      <point frame="559488" label="New Point" />
+      <point frame="570048" label="New Point" />
+      <point frame="578944" label="New Point" />
+      <point frame="589248" label="New Point" />
+      <point frame="598848" label="New Point" />
+      <point frame="607872" label="New Point" />
+      <point frame="617856" label="New Point" />
+      <point frame="627008" label="New Point" />
+      <point frame="636800" label="New Point" />
+      <point frame="647488" label="New Point" />
+      <point frame="656448" label="New Point" />
+      <point frame="666816" label="New Point" />
+      <point frame="676544" label="New Point" />
+      <point frame="685376" label="New Point" />
+      <point frame="695936" label="New Point" />
+      <point frame="705344" label="New Point" />
+      <point frame="715520" label="New Point" />
+      <point frame="726208" label="New Point" />
+      <point frame="735104" label="New Point" />
+      <point frame="745280" label="New Point" />
+      <point frame="754816" label="New Point" />
+      <point frame="763712" label="New Point" />
+      <point frame="774016" label="New Point" />
+      <point frame="783808" label="New Point" />
+      <point frame="793408" label="New Point" />
+      <point frame="804096" label="New Point" />
+      <point frame="812864" label="New Point" />
+      <point frame="823104" label="New Point" />
+      <point frame="832960" label="New Point" />
+      <point frame="841728" label="New Point" />
+      <point frame="852416" label="New Point" />
+    </dataset>
+  </data>
+  <display>
+    <layer id="8" type="timeinstants" name="Time Instants" model="10"  plotStyle="0" colourName="Orange" colour="#ff9632" darkBackground="false" />
+  </display>
+</sv>

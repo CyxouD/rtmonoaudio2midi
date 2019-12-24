@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sonic-visualiser>
+<sv>
+  <data>
+    <model id="36" name="" sampleRate="44100" start="70656" end="766208" type="sparse" dimensions="1" resolution="1" notifyOnAdd="true" dataset="35" />
+    <dataset id="35" dimensions="1">
+      <point frame="70656" label="New Point" />
+      <point frame="88064" label="New Point" />
+      <point frame="105472" label="New Point" />
+      <point frame="123392" label="New Point" />
+      <point frame="141056" label="New Point" />
+      <point frame="159232" label="New Point" />
+      <point frame="176640" label="New Point" />
+      <point frame="193792" label="New Point" />
+      <point frame="213120" label="New Point" />
+      <point frame="221312" label="New Point" />
+      <point frame="229504" label="New Point" />
+      <point frame="238336" label="New Point" />
+      <point frame="246784" label="New Point" />
+      <point frame="255360" label="New Point" />
+      <point frame="263808" label="New Point" />
+      <point frame="272640" label="New Point" />
+      <point frame="281472" label="New Point" />
+      <point frame="290304" label="New Point" />
+      <point frame="299264" label="New Point" />
+      <point frame="308096" label="New Point" />
+      <point frame="316416" label="New Point" />
+      <point frame="326016" label="New Point" />
+      <point frame="334208" label="New Point" />
+      <point frame="342912" label="New Point" />
+      <point frame="352256" label="New Point" />
+      <point frame="360960" label="New Point" />
+      <point frame="370432" label="New Point" />
+      <point frame="379392" label="New Point" />
+      <point frame="387328" label="New Point" />
+      <point frame="397312" label="New Point" />
+      <point frame="405632" label="New Point" />
+      <point frame="414208" label="New Point" />
+      <point frame="423296" label="New Point" />
+      <point frame="432000" label="New Point" />
+      <point frame="440960" label="New Point" />
+      <point frame="449280" label="New Point" />
+      <point frame="458240" label="New Point" />
+      <point frame="467456" label="New Point" />
+      <point frame="474880" label="New Point" />
+      <point frame="484480" label="New Point" />
+      <point frame="493056" label="New Point" />
+      <point frame="502528" label="New Point" />
+      <point frame="510976" label="New Point" />
+      <point frame="520576" label="New Point" />
+      <point frame="528768" label="New Point" />
+      <point frame="538624" label="New Point" />
+      <point frame="546560" label="New Point" />
+      <point frame="555648" label="New Point" />
+      <point frame="564864" label="New Point" />
+      <point frame="573568" label="New Point" />
+      <point frame="582016" label="New Point" />
+      <point frame="591616" label="New Point" />
+      <point frame="599680" label="New Point" />
+      <point frame="608768" label="New Point" />
+      <point frame="616960" label="New Point" />
+      <point frame="626432" label="New Point" />
+      <point frame="635136" label="New Point" />
+      <point frame="643584" label="New Point" />
+      <point frame="652928" label="New Point" />
+      <point frame="661248" label="New Point" />
+      <point frame="670464" label="New Point" />
+      <point frame="678784" label="New Point" />
+      <point frame="687104" label="New Point" />
+      <point frame="696448" label="New Point" />
+      <point frame="705792" label="New Point" />
+      <point frame="714496" label="New Point" />
+      <point frame="723072" label="New Point" />
+      <point frame="731648" label="New Point" />
+      <point frame="739840" label="New Point" />
+      <point frame="749056" label="New Point" />
+      <point frame="757504" label="New Point" />
+      <point frame="766208" label="New Point" />
+    </dataset>
+  </data>
+  <display>
+    <layer id="34" type="timeinstants" name="Time Instants" model="36"  plotStyle="0" colourName="Bright Orange" colour="#ffbc50" darkBackground="true" />
+  </display>
+</sv>

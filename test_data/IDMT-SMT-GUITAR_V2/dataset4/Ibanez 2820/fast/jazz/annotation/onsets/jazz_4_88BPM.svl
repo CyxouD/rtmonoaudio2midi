@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sonic-visualiser>
+<sv>
+  <data>
+    <model id="20" name="" sampleRate="44100" start="119168" end="2254142" type="sparse" dimensions="1" resolution="1" notifyOnAdd="true" dataset="19" />
+    <dataset id="19" dimensions="1">
+      <point frame="119168" label="New Point" />
+      <point frame="150656" label="New Point" />
+      <point frame="180672" label="New Point" />
+      <point frame="210784" label="New Point" />
+      <point frame="240352" label="New Point" />
+      <point frame="270368" label="New Point" />
+      <point frame="300384" label="New Point" />
+      <point frame="330784" label="New Point" />
+      <point frame="361232" label="New Point" />
+      <point frame="391303" label="New Point" />
+      <point frame="420904" label="New Point" />
+      <point frame="451022" label="New Point" />
+      <point frame="481525" label="New Point" />
+      <point frame="511832" label="New Point" />
+      <point frame="540892" label="New Point" />
+      <point frame="569552" label="New Point" />
+      <point frame="600400" label="New Point" />
+      <point frame="601436" label="New Point" />
+      <point frame="630528" label="New Point" />
+      <point frame="631334" label="New Point" />
+      <point frame="661166" label="New Point" />
+      <point frame="692406" label="New Point" />
+      <point frame="721344" label="New Point" />
+      <point frame="751146" label="New Point" />
+      <point frame="780956" label="New Point" />
+      <point frame="811118" label="New Point" />
+      <point frame="842416" label="New Point" />
+      <point frame="871664" label="New Point" />
+      <point frame="901670" label="New Point" />
+      <point frame="931128" label="New Point" />
+      <point frame="961048" label="New Point" />
+      <point frame="990616" label="New Point" />
+      <point frame="1021174" label="New Point" />
+      <point frame="1050752" label="New Point" />
+      <point frame="1080882" label="New Point" />
+      <point frame="1110120" label="New Point" />
+      <point frame="1141360" label="New Point" />
+      <point frame="1171324" label="New Point" />
+      <point frame="1201728" label="New Point" />
+      <point frame="1232022" label="New Point" />
+      <point frame="1263104" label="New Point" />
+      <point frame="1292310" label="New Point" />
+      <point frame="1323040" label="New Point" />
+      <point frame="1352560" label="New Point" />
+      <point frame="1382920" label="New Point" />
+      <point frame="1411840" label="New Point" />
+      <point frame="1442936" label="New Point" />
+      <point frame="1473120" label="New Point" />
+      <point frame="1502550" label="New Point" />
+      <point frame="1532250" label="New Point" />
+      <point frame="1562400" label="New Point" />
+      <point frame="1592880" label="New Point" />
+      <point frame="1623520" label="New Point" />
+      <point frame="1653408" label="New Point" />
+      <point frame="1683040" label="New Point" />
+      <point frame="1713088" label="New Point" />
+      <point frame="1742976" label="New Point" />
+      <point frame="1772672" label="New Point" />
+      <point frame="1803104" label="New Point" />
+      <point frame="1833280" label="New Point" />
+      <point frame="1863248" label="New Point" />
+      <point frame="1893122" label="New Point" />
+      <point frame="1924192" label="New Point" />
+      <point frame="1954048" label="New Point" />
+      <point frame="1984384" label="New Point" />
+      <point frame="2014000" label="New Point" />
+      <point frame="2043558" label="New Point" />
+      <point frame="2073181" label="New Point" />
+      <point frame="2103178" label="New Point" />
+      <point frame="2163104" label="New Point" />
+      <point frame="2194432" label="New Point" />
+      <point frame="2225312" label="New Point" />
+      <point frame="2254142" label="New Point" />
+    </dataset>
+  </data>
+  <display>
+    <layer id="18" type="timeinstants" name="Time Instants" model="20"  plotStyle="0" colourName="Bright Blue" colour="#1e96ff" darkBackground="true" />
+  </display>
+</sv>

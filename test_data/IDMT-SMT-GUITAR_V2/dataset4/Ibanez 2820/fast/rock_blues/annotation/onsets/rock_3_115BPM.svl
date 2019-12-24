@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sonic-visualiser>
+<sv>
+  <data>
+    <model id="33" name="" sampleRate="44100" start="91980" end="919616" type="sparse" dimensions="1" resolution="1" notifyOnAdd="true" dataset="32" />
+    <dataset id="32" dimensions="1">
+      <point frame="91980" label="New Point" />
+      <point frame="115380" label="New Point" />
+      <point frame="138060" label="New Point" />
+      <point frame="161100" label="New Point" />
+      <point frame="183960" label="New Point" />
+      <point frame="206460" label="New Point" />
+      <point frame="230220" label="New Point" />
+      <point frame="252720" label="New Point" />
+      <point frame="275712" label="New Point" />
+      <point frame="276840" label="New Point" />
+      <point frame="331072" label="New Point" />
+      <point frame="332352" label="New Point" />
+      <point frame="344832" label="New Point" />
+      <point frame="366208" label="New Point" />
+      <point frame="367872" label="New Point" />
+      <point frame="459392" label="New Point" />
+      <point frame="460896" label="New Point" />
+      <point frame="483648" label="New Point" />
+      <point frame="507136" label="New Point" />
+      <point frame="529344" label="New Point" />
+      <point frame="552832" label="New Point" />
+      <point frame="642510" label="New Point" />
+      <point frame="644490" label="New Point" />
+      <point frame="701088" label="New Point" />
+      <point frame="702560" label="New Point" />
+      <point frame="714176" label="New Point" />
+      <point frame="734784" label="New Point" />
+      <point frame="736512" label="New Point" />
+      <point frame="827072" label="New Point" />
+      <point frame="828160" label="New Point" />
+      <point frame="851072" label="New Point" />
+      <point frame="874432" label="New Point" />
+      <point frame="897408" label="New Point" />
+      <point frame="919616" label="New Point" />
+    </dataset>
+  </data>
+  <display>
+    <layer id="31" type="timeinstants" name="Time Instants" model="33"  plotStyle="0" colourName="Purple" colour="#c832ff" darkBackground="false" />
+  </display>
+</sv>

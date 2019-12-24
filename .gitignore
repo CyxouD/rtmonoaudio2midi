@@ -1,6 +1,5 @@
 *.pyc
 sound_fonts/
-test_data/
 
 
 # Created by https://www.gitignore.io/api/pycharm

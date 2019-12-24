@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sonic-visualiser>
+<sv>
+  <data>
+    <model id="64" name="" sampleRate="44100" start="106200" end="1137600" type="sparse" dimensions="1" resolution="1" notifyOnAdd="true" dataset="63" />
+    <dataset id="63" dimensions="1">
+      <point frame="106200" label="New Point" />
+      <point frame="132480" label="New Point" />
+      <point frame="158760" label="New Point" />
+      <point frame="185400" label="New Point" />
+      <point frame="212580" label="New Point" />
+      <point frame="237600" label="New Point" />
+      <point frame="265140" label="New Point" />
+      <point frame="292500" label="New Point" />
+      <point frame="317520" label="New Point" />
+      <point frame="355320" label="New Point" />
+      <point frame="369000" label="New Point" />
+      <point frame="529740" label="New Point" />
+      <point frame="567180" label="New Point" />
+      <point frame="568530" label="New Point" />
+      <point frame="583200" label="New Point" />
+      <point frame="687960" label="New Point" />
+      <point frame="689670" label="New Point" />
+      <point frame="712800" label="New Point" />
+      <point frame="713970" label="New Point" />
+      <point frame="740070" label="New Point" />
+      <point frame="779760" label="New Point" />
+      <point frame="793890" label="New Point" />
+      <point frame="951840" label="New Point" />
+      <point frame="991755" label="New Point" />
+      <point frame="993015" label="New Point" />
+      <point frame="1007010" label="New Point" />
+      <point frame="1008180" label="New Point" />
+      <point frame="1110400" label="New Point" />
+      <point frame="1111744" label="New Point" />
+      <point frame="1136320" label="New Point" />
+      <point frame="1137600" label="New Point" />
+    </dataset>
+  </data>
+  <display>
+    <layer id="46" type="timeinstants" name="Time Instants" model="64"  plotStyle="0" colourName="Bright Orange" colour="#ffbc50" darkBackground="true" />
+  </display>
+</sv>
