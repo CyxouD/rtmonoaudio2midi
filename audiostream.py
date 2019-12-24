@@ -22,6 +22,10 @@ from chart import Chart
 import collections
 from math import sqrt, pow
 
+import sys
+# to fix recursion overflow in SpectralAnalyser.exponential_decay_threshold function. Increase if needed
+sys.setrecursionlimit(1500)
+
 
 class SpectralAnalyser(object):
     # guitar frequency range
