@@ -1,3 +1,9 @@
+###
+# for matplotlib to be fixed https://github.com/matplotlib/matplotlib/issues/9196#issuecomment-448457722
+import sys
+reload(sys)
+sys.setdefaultencoding('utf8')
+####
 import matplotlib.pyplot as plt
 import numpy as np
 
