@@ -152,15 +152,15 @@ class Test(object):
             allFoundPitches.append(found_pitches)
             print('found = ' + str(found_pitches))
             tree = ET.parse(os.path.join(path, filename))
-            actualPitchesInfos = []
+            actual_pitches_infos = []
             for event in tree.getroot().find('transcription').findall('event'):
                 Pitch_info = collections.namedtuple('Pitch_info',
                                                     ['pitch', 'onset_sec'])
-                actualPitchesInfos.append(
+                actual_pitches_infos.append(
                     Pitch_info(pitch=int(event.find('pitch').text), onset_sec=float(event.find('onsetSec').text)))
-            actual_onsets = map(lambda info: info.onset_sec, actualPitchesInfos)
+            actual_onsets = map(lambda info: info.onset_sec, actual_pitches_infos)
             print('actual_onsets = ' + str(actual_onsets))
-            actual_pitches = map(lambda info: info.pitch, actualPitchesInfos)
+            actual_pitches = map(lambda info: info.pitch, actual_pitches_infos)
             print('actual = ' + str(actual_pitches))
 
             allActualPitches.append(actual_pitches)
