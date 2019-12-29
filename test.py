@@ -110,7 +110,7 @@ class Test(object):
         summed_all_actual_pitches = map(lambda pitches: np.sum(pitches), allActualPitches)
         summed_all_found_pitches = map(lambda pitches: np.sum(pitches), allFoundPitches)
 
-        return (summed_all_found_pitches, summed_all_actual_pitches)
+        return summed_all_found_pitches, summed_all_actual_pitches
 
     def process_folder(self, folderPath, bitDepth, window_size=WINDOW_SIZE, local_max_window=LOCAL_MAX_WINDOW,
                        local_mean_range_multiplier=LOCAL_MEAN_RANGE_MULTIPLIER,
@@ -119,20 +119,20 @@ class Test(object):
                        show_chart=True):
         print(folderPath)
         path = folderPath + "/annotation/"
-        files = [];
+        files = []
         for filename in sorted(os.listdir(path)):
             if os.path.isfile(os.path.join(path, filename)) and filename.endswith('.xml') and (any(
                     filename.find(
                         substring) != -1 for substring in filesSubstrings) if filesSubstrings is not None else True):
                 files.append(filename)
 
-        allFoundPitches = []
-        allActualPitches = []
+        all_found_pitches = []
+        all_actual_pitches = []
         for filename in files:
             print(filename)
-            filenameWithoutExt = splitext(filename)[0]
+            filename_without_ext = splitext(filename)[0]
 
-            path_to_wav = os.path.join(folderPath + "/audio/", filenameWithoutExt + ".wav")
+            path_to_wav = os.path.join(folderPath + "/audio/", filename_without_ext + ".wav")
 
             if not exists(path_to_wav):
                 print(path_to_wav + '- not exists')
@@ -149,7 +149,7 @@ class Test(object):
             found_onsets = map(lambda info: info.onset_sec, result.fundamental_frequencies_infos)
             print('found_onsets', found_onsets)
             found_pitches = map(lambda midi: int(round(midi)), list(hz_to_midi(found_fundamental_frequencies)))
-            allFoundPitches.append(found_pitches)
+            all_found_pitches.append(found_pitches)
             print('found = ' + str(found_pitches))
             tree = ET.parse(os.path.join(path, filename))
             actual_pitches_infos = []
@@ -163,7 +163,7 @@ class Test(object):
             actual_pitches = map(lambda info: info.pitch, actual_pitches_infos)
             print('actual = ' + str(actual_pitches))
 
-            allActualPitches.append(actual_pitches)
+            all_actual_pitches.append(actual_pitches)
 
             for pitch in actual_pitches:
                 print('Playing actual pitch: ' + str(pitch) + '...')
@@ -181,14 +181,14 @@ class Test(object):
                                         result.window_size, result.onset_flux, result.local_mean_thresholds,
                                         result.exponential_decay_thresholds)
 
-        if (len(allActualPitches) != 0):
-            TableMetrics.numeric_metrics_in_table(allActualPitches, allFoundPitches)
+        if len(all_actual_pitches) != 0:
+            TableMetrics.numeric_metrics_in_table(all_actual_pitches, all_found_pitches)
         else:
             print('no actual pitches')
 
         print("\n" * 10)
 
-        return (allActualPitches, allFoundPitches)
+        return all_actual_pitches, all_found_pitches
 
 
 if __name__ == '__main__':
