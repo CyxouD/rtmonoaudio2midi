@@ -14,7 +14,6 @@ from app_setup import (
     LOCAL_MEAN_THRESHOLD,
     EXPONENTIAL_DECAY_THRESHOLD_PARAMETER,
     SAMPLE_RATE)
-from midi import hz_to_midi, RTNote
 from mingus.midi import fluidsynth
 from app_setup import SOUNDFONT
 import wave
@@ -23,6 +22,7 @@ import collections
 from math import sqrt, pow
 
 import sys
+
 # to fix recursion overflow in SpectralAnalyser.exponential_decay_threshold function. Increase if needed
 sys.setrecursionlimit(1500)
 
@@ -65,15 +65,15 @@ class SpectralAnalyser(object):
 
         is_onset = is_flux_local_max and is_more_local_mean_threshold and is_more_exponential_decay_threshold
         if is_onset:
-            print('n', n)
-            print('flux', self._fluxs[n])
-            print('find_spectral_flux_local_max', self.find_spectral_flux_local_max(n))
-            print('is_flux_local_max', is_flux_local_max)
-            print('local_mean_threshold', self.local_mean_threshold(n))
-            print('is_more_local_mean_threshold', is_more_local_mean_threshold)
-            print('self.exponential_decay_threshold(n-1)', self.exponential_decay_threshold(n - 1))
-            print('is_more_exponential_decay_threshold', is_more_exponential_decay_threshold)
-            print('\n' * 3)
+            # print('n', n)
+            # print('flux', self._fluxs[n])
+            # print('find_spectral_flux_local_max', self.find_spectral_flux_local_max(n))
+            # print('is_flux_local_max', is_flux_local_max)
+            # print('local_mean_threshold', self.local_mean_threshold(n))
+            # print('is_more_local_mean_threshold', is_more_local_mean_threshold)
+            # print('self.exponential_decay_threshold(n-1)', self.exponential_decay_threshold(n - 1))
+            # print('is_more_exponential_decay_threshold', is_more_exponential_decay_threshold)
+            # print('\n' * 3)
             self._onset_flux.append(self._fluxs[n])
 
         return is_onset
@@ -165,7 +165,7 @@ class SpectralAnalyser(object):
                                                                          dtype=np.int16)
             spectrum = self.spectrums[i]
 
-            flux = sqrt(sum([max(pow(spectrum[n] - last_spectrum[n], 2), 0) for n in xrange(self._window_size)]))
+            flux = sum([max(spectrum[n] - last_spectrum[n], 0) for n in xrange(self._window_size)])
             self._fluxs.append(flux)
 
     def cepstrum(self, samples):
@@ -202,7 +202,7 @@ class SpectralAnalyser(object):
 
 
 class StreamProcessor:
-    def __init__(self, pathWav, bits_per_sample, local_max_window=LOCAL_MAX_WINDOW,
+    def __init__(self, pathWav, bits_per_sample, window_size=WINDOW_SIZE, local_max_window=LOCAL_MAX_WINDOW,
                  local_mean_range_multiplier=LOCAL_MEAN_RANGE_MULTIPLIER, local_mean_threshold=LOCAL_MEAN_THRESHOLD,
                  exponential_decay_threshold_parameter=EXPONENTIAL_DECAY_THRESHOLD_PARAMETER,
                  play_notes=False):
@@ -210,12 +210,13 @@ class StreamProcessor:
         self._play_notes = play_notes
         self._local_max_window = local_max_window
         self._wf = wave.open(pathWav, 'rb')
+        self._window_size = window_size
         if FROM_FILE:
             self._sample_rate = self._wf.getframerate()
         else:
             self._sample_rate = SAMPLE_RATE
         self._spectral_analyser = SpectralAnalyser(
-            window_size=WINDOW_SIZE,
+            window_size=self._window_size,
             sample_rate=self._sample_rate,
             local_max_window=self._local_max_window,
             local_mean_range_multiplier=local_mean_range_multiplier,
@@ -237,7 +238,7 @@ class StreamProcessor:
                 channels=1,
                 rate=SAMPLE_RATE,
                 input=True,
-                frames_per_buffer=WINDOW_SIZE,
+                frames_per_buffer=self._window_size,
                 stream_callback=self._process_stream_frame,
             )
             self._stream.start_stream()
@@ -255,7 +256,7 @@ class StreamProcessor:
         # TODO get rid of filter
         return Result((filter(lambda x: x is not None, fundament_freqs)),
                       amplitudes=self._spectral_analyser.getAmplitudes(),
-                      flux_values=self._spectral_analyser.getFluxValues(), window_size=WINDOW_SIZE,
+                      flux_values=self._spectral_analyser.getFluxValues(), window_size=self._window_size,
                       onset_flux=self._spectral_analyser.getOnsetFluxValues(),
                       local_mean_thresholds=self._spectral_analyser.getLocalMeanThresholds(),
                       exponential_decay_thresholds=self._spectral_analyser.getExponentialDecayThresholds())
@@ -267,7 +268,7 @@ class StreamProcessor:
 
     def _process_wav_window_frames(self, frames):
         bits_in_byte = 8
-        frames_chunks = list(self.chunks(frames, WINDOW_SIZE * self._bits_per_sample / bits_in_byte))
+        frames_chunks = list(self.chunks(frames, self._window_size * self._bits_per_sample / bits_in_byte))
         data = list(map(self._get_wav_frames, frames_chunks))
         return self._process_data(data)
 
