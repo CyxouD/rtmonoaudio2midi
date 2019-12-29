@@ -1,3 +1,4 @@
+import collections
 import os
 from os.path import isfile, join, splitext, exists
 
@@ -143,18 +144,28 @@ class Test(object):
                                      local_mean_threshold=local_mean_threshold,
                                      exponential_decay_threshold_parameter=exponential_decay_threshold).run()
             # TODO improve round function
-            found_pitches = map(lambda midi: int(round(midi)), list(hz_to_midi(result.fundamental_frequencies)))
+            found_fundamental_frequencies = map(lambda info: info.fundamental_frequency,
+                                                result.fundamental_frequencies_infos)
+            found_onsets = map(lambda info: info.onset_sec, result.fundamental_frequencies_infos)
+            print('found_onsets', found_onsets)
+            found_pitches = map(lambda midi: int(round(midi)), list(hz_to_midi(found_fundamental_frequencies)))
             allFoundPitches.append(found_pitches)
             print('found = ' + str(found_pitches))
             tree = ET.parse(os.path.join(path, filename))
-            actualPitches = []
+            actualPitchesInfos = []
             for event in tree.getroot().find('transcription').findall('event'):
-                actualPitches.append(int(event.find('pitch').text))
-            print('actual = ' + str(actualPitches))
+                Pitch_info = collections.namedtuple('Pitch_info',
+                                                    ['pitch', 'onset_sec'])
+                actualPitchesInfos.append(
+                    Pitch_info(pitch=int(event.find('pitch').text), onset_sec=float(event.find('onsetSec').text)))
+            actual_onsets = map(lambda info: info.onset_sec, actualPitchesInfos)
+            print('actual_onsets = ' + str(actual_onsets))
+            actual_pitches = map(lambda info: info.pitch, actualPitchesInfos)
+            print('actual = ' + str(actual_pitches))
 
-            allActualPitches.append(actualPitches)
+            allActualPitches.append(actual_pitches)
 
-            for pitch in actualPitches:
+            for pitch in actual_pitches:
                 print('Playing actual pitch: ' + str(pitch) + '...')
                 fluidsynth.play_Note(pitch, 0, 100)
             time.sleep(DELAYS_SECONDS_BETWEEN_PLAYING)

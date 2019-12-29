@@ -126,13 +126,17 @@ class SpectralAnalyser(object):
         self.spectrums = self.calculate_spectrums(windows_data)
         self.calculate_flexs()
 
-        fund_frequencies = []
+        fund_frequencies_infos = []
         for n in range(0, len(windows_data)):
             onset = self.is_onset(n)
             if onset:
-                fund_frequencies.append(self.find_fundamental_freq(windows_data[n]))
+                Fund_frequency_info = collections.namedtuple('Fund_freq_info',
+                                                             ['fundamental_frequency', 'onset_sec'])
+                fund_frequencies_infos.append(
+                    Fund_frequency_info(fundamental_frequency=self.find_fundamental_freq(windows_data[n]),
+                                        onset_sec=float(self._window_size) / self._sample_rate * n))
 
-        return fund_frequencies
+        return fund_frequencies_infos
 
     def calculate_spectrums(self, windows_data):
         """
@@ -226,10 +230,10 @@ class StreamProcessor:
         fluidsynth.init(SOUNDFONT)
 
     def run(self):
-        fundament_freqs = []
+        fundament_freqs_infos = []
         if FROM_FILE:
             frames = self._wf.readframes(-1)
-            fundament_freqs = self._process_wav_window_frames(frames)
+            fundament_freqs_infos = self._process_wav_window_frames(frames)
             self._wf.close()
         else:
             pya = PyAudio()
@@ -251,10 +255,10 @@ class StreamProcessor:
             pya.terminate()
 
         Result = collections.namedtuple('Result',
-                                        ['fundamental_frequencies', 'amplitudes', 'flux_values', 'window_size',
+                                        ['fundamental_frequencies_infos', 'amplitudes', 'flux_values', 'window_size',
                                          'onset_flux', 'local_mean_thresholds', 'exponential_decay_thresholds'])
         # TODO get rid of filter
-        return Result((filter(lambda x: x is not None, fundament_freqs)),
+        return Result((filter(lambda x: x is not None, fundament_freqs_infos)),
                       amplitudes=self._spectral_analyser.getAmplitudes(),
                       flux_values=self._spectral_analyser.getFluxValues(), window_size=self._window_size,
                       onset_flux=self._spectral_analyser.getOnsetFluxValues(),
