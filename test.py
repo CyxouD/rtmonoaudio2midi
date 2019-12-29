@@ -186,10 +186,6 @@ class Test(object):
         else:
             print('no actual pitches')
 
-        # print('actual = ' + actualPitches)
-        # print(
-        #     np.sum(np.array(allFoundPitches) == np.array(allActualPitches)) / len(allActualPitches))  # not working now
-
         print("\n" * 10)
 
         return (allActualPitches, allFoundPitches)
