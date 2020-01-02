@@ -107,9 +107,9 @@ class Test(object):
                                                                   local_mean_range_multiplier,
                                                                   local_mean_threshold=local_mean_threshold,
                                                                   exponential_decay_threshold=exponential_decay_threshold,
-                                                                  # TODO exclude Lick12 from here
-                                                                  filesSubstrings=['Lick1', 'Lick3', 'Lick4', 'Lick5',
-                                                                                   'Lick6'],
+                                                                  # TODO add Lick1 here without Lick12
+                                                                  filesSubstrings=['Lick11', 'Lick3', 'Lick4', 'Lick5',
+                                                                                   'Lick6', "Lick2"],
                                                                   show_chart=False)
 
         return allFoundPitches, allActualPitches
