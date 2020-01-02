@@ -258,7 +258,8 @@ class StreamProcessor:
                                         ['fundamental_frequencies_infos', 'amplitudes', 'flux_values', 'window_size',
                                          'onset_flux', 'local_mean_thresholds', 'exponential_decay_thresholds'])
         # TODO get rid of filter
-        return Result((filter(lambda x: x is not None, fundament_freqs_infos)),
+        return Result((filter(lambda fundament_freqs_info: fundament_freqs_info.fundamental_frequency is not None,
+                              fundament_freqs_infos)),
                       amplitudes=self._spectral_analyser.getAmplitudes(),
                       flux_values=self._spectral_analyser.getFluxValues(), window_size=self._window_size,
                       onset_flux=self._spectral_analyser.getOnsetFluxValues(),
