@@ -53,8 +53,10 @@ class Test(object):
             print('results', results)
 
     def mean_squared_error(self, Y_pred, Y_real):
+        summed_all_found_pitches = map(lambda pitches: np.sum(pitches), Y_pred)
+        summed_all_actual_pitches = map(lambda pitches: np.sum(pitches), Y_real)
         return np.square(
-            np.subtract(Y_pred, Y_real)).mean()
+            np.subtract(summed_all_found_pitches, summed_all_actual_pitches)).mean()
 
     def brute_optimization(self, objective_function):
         window_sizes = [1024]
@@ -107,10 +109,7 @@ class Test(object):
                                                                                    'Lick6'],
                                                                   show_chart=False)
 
-        summed_all_actual_pitches = map(lambda pitches: np.sum(pitches), allActualPitches)
-        summed_all_found_pitches = map(lambda pitches: np.sum(pitches), allFoundPitches)
-
-        return summed_all_found_pitches, summed_all_actual_pitches
+        return allFoundPitches, allActualPitches
 
     def process_folder(self, folderPath, bitDepth, window_size=WINDOW_SIZE, local_max_window=LOCAL_MAX_WINDOW,
                        local_mean_range_multiplier=LOCAL_MEAN_RANGE_MULTIPLIER,
