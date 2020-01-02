@@ -5,7 +5,7 @@ from os.path import isfile, join, splitext, exists
 from tabulate import tabulate
 
 from app_setup import WINDOW_SIZE, LOCAL_MAX_WINDOW, LOCAL_MEAN_RANGE_MULTIPLIER, LOCAL_MEAN_THRESHOLD, \
-    EXPONENTIAL_DECAY_THRESHOLD_PARAMETER, TUNE_HYPERPARAMETERS
+    EXPONENTIAL_DECAY_THRESHOLD_PARAMETER, TUNE_HYPERPARAMETERS, SAMPLE_RATE
 from audiostream import StreamProcessor
 import xml.etree.ElementTree as ET
 import numpy as np
@@ -20,6 +20,9 @@ from table_metrics import TableMetrics
 from scipy import optimize
 
 DELAYS_SECONDS_BETWEEN_PLAYING = 0
+
+PENALTY = 50
+MISSED_TO_FAKE_PENALTY_RATIO = 2 / 1
 
 
 class Test(object):
@@ -142,21 +145,28 @@ class Test(object):
                                      local_mean_range_multiplier=local_mean_range_multiplier,
                                      local_mean_threshold=local_mean_threshold,
                                      exponential_decay_threshold_parameter=exponential_decay_threshold).run()
+            found_frequencies_infos = result.fundamental_frequencies_infos
+            Pitch_info = collections.namedtuple('Pitch_info',
+                                                ['pitch', 'onset_sec'])
             # TODO improve round function
+            found_pitches_infos = map(
+                lambda info: Pitch_info(self.round_midi(hz_to_midi(info.fundamental_frequency)), info.onset_sec),
+                result.fundamental_frequencies_infos)
+            # print('found_pitches_infos', found_pitches_infos)
             found_fundamental_frequencies = map(lambda info: info.fundamental_frequency,
-                                                result.fundamental_frequencies_infos)
-            found_onsets = map(lambda info: info.onset_sec, result.fundamental_frequencies_infos)
+                                                found_frequencies_infos)
+            found_onsets = map(lambda info: info.onset_sec, found_frequencies_infos)
             print('found_onsets', found_onsets)
-            found_pitches = map(lambda midi: int(round(midi)), list(hz_to_midi(found_fundamental_frequencies)))
+            found_pitches = map(lambda midi: self.round_midi(midi), list(hz_to_midi(found_fundamental_frequencies)))
             all_found_pitches.append(found_pitches)
             print('found = ' + str(found_pitches))
             tree = ET.parse(os.path.join(path, filename))
             actual_pitches_infos = []
             for event in tree.getroot().find('transcription').findall('event'):
-                Pitch_info = collections.namedtuple('Pitch_info',
-                                                    ['pitch', 'onset_sec'])
                 actual_pitches_infos.append(
-                    Pitch_info(pitch=int(event.find('pitch').text), onset_sec=float(event.find('onsetSec').text)))
+                    Pitch_info(pitch=int(event.find('pitch').text),
+                               onset_sec=float(event.find('onsetSec').text)))
+            # print('actual_pitches_infos', actual_pitches_infos)
             actual_onsets = map(lambda info: info.onset_sec, actual_pitches_infos)
             print('actual_onsets = ' + str(actual_onsets))
             actual_pitches = map(lambda info: info.pitch, actual_pitches_infos)
@@ -188,6 +198,51 @@ class Test(object):
         print("\n" * 10)
 
         return all_actual_pitches, all_found_pitches
+
+    def round_midi(self, midi):
+        return int(round(midi))
+
+    def missed_and_fake_onset_notes_objective(self, found_onsets, actual_onsets, window_size, sample_rate):
+        missed_notes_number, fake_notes_number = self.find_missed_and_fake_notes(found_onsets, actual_onsets,
+                                                                                 window_size,
+                                                                                 sample_rate)
+        # TODO should we take in account ratio of mistakes to length?
+        return PENALTY * (missed_notes_number * MISSED_TO_FAKE_PENALTY_RATIO + fake_notes_number) * len(actual_onsets)
+
+    def find_missed_and_fake_notes(self, found_onsets, actual_onsets, window_size, sample_rate):
+        window_size_in_sec = float(window_size) / sample_rate
+        onsets_equals = 0
+        m = 2
+
+        min_distance = 100500
+        for i in range(0, len(actual_onsets) - 1):
+            pair_distance = actual_onsets[i + 1] - actual_onsets[i]
+            if pair_distance < min_distance:
+                min_distance = pair_distance
+
+        # step = window_size_in_sec * m
+        step = min_distance / 2
+        associated_found_onsets = []
+        for actual_onset in actual_onsets:
+            for found_onset in found_onsets:
+                if found_onset - step <= actual_onset <= found_onset + step and found_onset not in associated_found_onsets:
+                    onsets_equals = onsets_equals + 1
+                    associated_found_onsets.append(found_onset)
+                    break  # TODO should we stop if we found note in interval, what if more than 1 is found?
+
+        missed_notes_number = len(actual_onsets) - onsets_equals
+        fake_notes_number = len(found_onsets) - onsets_equals
+        print('associated_found_onsets', associated_found_onsets)
+        print('min actual distance', min_distance)
+        print('window_size_in_sec', window_size_in_sec)
+        print('window_size_in_sec * m', step)
+        print('actual size', len(actual_onsets))
+        print('found size', len(found_onsets))
+        print('onsets equals', onsets_equals)
+        print('missed onsets (1)', missed_notes_number)  # missed
+        print('fake_onsets (2)', fake_notes_number)  # fake
+
+        return missed_notes_number, fake_notes_number
 
 
 if __name__ == '__main__':
