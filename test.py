@@ -69,10 +69,14 @@ class Test(object):
         local_mean_range_multipliers = [2, 3]
         exponential_decay_thresholds = np.arange(0.0, 1.0, 0.24).tolist()
 
+        total_number_of_experiments = len(window_sizes) * len(local_mean_thresholds) * len(local_max_windows) * len(
+            local_mean_range_multipliers) * len(exponential_decay_thresholds)
+
         results = {}
 
         min_objective = - 1005000
         min_inputs = None
+        experiment_n = 1
         for window_size in window_sizes:
             for local_mean_threshold in local_mean_thresholds:
                 for local_max_window in local_max_windows:
@@ -89,11 +93,13 @@ class Test(object):
                                 min_inputs = inputs
                                 min_objective = result_objective
                             results[str(inputs)] = result_objective
-                            print('results', results)
 
                             if result_objective <= min_objective:
                                 min_objective = result_objective
                                 min_inputs = inputs
+                            print('Expirement number ' + str(experiment_n) + ' of ' + str(total_number_of_experiments))
+                            print('results', results)
+                            experiment_n += 1
 
         return (min_inputs, min_objective), results
 
