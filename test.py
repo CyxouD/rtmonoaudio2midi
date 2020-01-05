@@ -51,21 +51,23 @@ class Test(object):
             # print('resbrute', resbrute)
             # print(tabulate(grid))
 
-            (minResult, results) = self.brute_optimization(self.mean_squared_error)
+            objective_function = self.missed_and_fake_onset_notes_objective
+            # objective_function = self.mean_squared_error
+            (minResult, results) = self.brute_optimization(objective_function)
             print('minResult', minResult)
             print('results', results)
 
-    def mean_squared_error(self, Y_pred, Y_real):
-        summed_all_found_pitches = map(lambda pitches: np.sum(pitches), Y_pred)
-        summed_all_actual_pitches = map(lambda pitches: np.sum(pitches), Y_real)
-        return np.square(
-            np.subtract(summed_all_found_pitches, summed_all_actual_pitches)).mean()
+    # def mean_squared_error(self, Y_pred, Y_real):
+    #     summed_all_found_pitches = map(lambda pitches: np.sum(pitches), Y_pred)
+    #     summed_all_actual_pitches = map(lambda pitches: np.sum(pitches), Y_real)
+    #     return np.square(
+    #         np.subtract(summed_all_found_pitches, summed_all_actual_pitches)).mean()
 
     def brute_optimization(self, objective_function):
-        window_sizes = [1024]
+        window_sizes = [1024, 2048]
         local_mean_thresholds = np.arange(0, 100000, 5000).tolist()
         local_max_windows = [3]
-        local_mean_range_multipliers = [3]
+        local_mean_range_multipliers = [2, 3]
         exponential_decay_thresholds = np.arange(0.0, 1.0, 0.24).tolist()
 
         results = {}
@@ -83,7 +85,7 @@ class Test(object):
 
                             result = self.tuning_function(
                                 inputs)
-                            result_objective = objective_function(result[0], result[1])
+                            result_objective = objective_function(result[0], result[1], window_size, SAMPLE_RATE)
                             if min_inputs is None:
                                 min_inputs = inputs
                                 min_objective = result_objective
@@ -99,20 +101,21 @@ class Test(object):
     def tuning_function(self, inputs, *params):
         (window_size, local_mean_threshold, local_max_window, local_mean_range_multiplier,
          exponential_decay_threshold) = inputs
-        (allActualPitches, allFoundPitches) = self.process_folder("test_data/IDMT-SMT-GUITAR_V2/dataset2",
-                                                                  bitDepth=24,
-                                                                  window_size=window_size,
-                                                                  local_max_window=local_max_window,
-                                                                  local_mean_range_multiplier=
-                                                                  local_mean_range_multiplier,
-                                                                  local_mean_threshold=local_mean_threshold,
-                                                                  exponential_decay_threshold=exponential_decay_threshold,
-                                                                  # TODO add Lick1 here without Lick12
-                                                                  filesSubstrings=['Lick11', 'Lick3', 'Lick4', 'Lick5',
-                                                                                   'Lick6', "Lick2"],
-                                                                  show_chart=False)
+        (allActualPitchesInfos, allFoundPitchesInfos) = self.process_folder("test_data/IDMT-SMT-GUITAR_V2/dataset2",
+                                                                            bitDepth=24,
+                                                                            window_size=window_size,
+                                                                            local_max_window=local_max_window,
+                                                                            local_mean_range_multiplier=
+                                                                            local_mean_range_multiplier,
+                                                                            local_mean_threshold=local_mean_threshold,
+                                                                            exponential_decay_threshold=exponential_decay_threshold,
+                                                                            # TODO add Lick1 here without Lick12
+                                                                            filesSubstrings=['Lick11', 'Lick3', 'Lick4',
+                                                                                             'Lick5',
+                                                                                             'Lick6', "Lick2"],
+                                                                            show_chart=False)
 
-        return allFoundPitches, allActualPitches
+        return allFoundPitchesInfos, allActualPitchesInfos
 
     def process_folder(self, folderPath, bitDepth, window_size=WINDOW_SIZE, local_max_window=LOCAL_MAX_WINDOW,
                        local_mean_range_multiplier=LOCAL_MEAN_RANGE_MULTIPLIER,
@@ -128,8 +131,8 @@ class Test(object):
                         substring) != -1 for substring in filesSubstrings) if filesSubstrings is not None else True):
                 files.append(filename)
 
-        all_found_pitches = []
-        all_actual_pitches = []
+        all_found_pitches_infos = []
+        all_actual_pitches_infos = []
         for filename in files:
             print(filename)
             filename_without_ext = splitext(filename)[0]
@@ -158,7 +161,7 @@ class Test(object):
             found_onsets = map(lambda info: info.onset_sec, found_frequencies_infos)
             print('found_onsets', found_onsets)
             found_pitches = map(lambda midi: self.round_midi(midi), list(hz_to_midi(found_fundamental_frequencies)))
-            all_found_pitches.append(found_pitches)
+            all_found_pitches_infos.append(found_pitches_infos)
             print('found = ' + str(found_pitches))
             tree = ET.parse(os.path.join(path, filename))
             actual_pitches_infos = []
@@ -172,7 +175,7 @@ class Test(object):
             actual_pitches = map(lambda info: info.pitch, actual_pitches_infos)
             print('actual = ' + str(actual_pitches))
 
-            all_actual_pitches.append(actual_pitches)
+            all_actual_pitches_infos.append(actual_pitches_infos)
 
             for pitch in actual_pitches:
                 print('Playing actual pitch: ' + str(pitch) + '...')
@@ -190,24 +193,32 @@ class Test(object):
                                         result.window_size, result.onset_flux, result.local_mean_thresholds,
                                         result.exponential_decay_thresholds)
 
-        if len(all_actual_pitches) != 0:
-            TableMetrics.numeric_metrics_in_table(all_actual_pitches, all_found_pitches)
+        if len(all_actual_pitches_infos) != 0:
+            TableMetrics.numeric_metrics_in_table(all_actual_pitches_infos, all_found_pitches_infos)
         else:
             print('no actual pitches')
 
         print("\n" * 10)
 
-        return all_actual_pitches, all_found_pitches
+        return all_actual_pitches_infos, all_found_pitches_infos
 
     def round_midi(self, midi):
         return int(round(midi))
 
-    def missed_and_fake_onset_notes_objective(self, found_onsets, actual_onsets, window_size, sample_rate):
-        missed_notes_number, fake_notes_number = self.find_missed_and_fake_notes(found_onsets, actual_onsets,
-                                                                                 window_size,
-                                                                                 sample_rate)
-        # TODO should we take in account ratio of mistakes to length?
-        return PENALTY * (missed_notes_number * MISSED_TO_FAKE_PENALTY_RATIO + fake_notes_number) * len(actual_onsets)
+    def missed_and_fake_onset_notes_objective(self, allFoundPitchesInfos, allActualPitchesInfos, window_size,
+                                              sample_rate):
+        penalties = []
+        for (actual_pitches_infos, found_pitches_infos) in zip(allFoundPitchesInfos, allActualPitchesInfos):
+            found_onsets = list(map(lambda info: info.onset_sec, found_pitches_infos))
+            actual_onsets = list(map(lambda info: info.onset_sec, actual_pitches_infos))
+            missed_notes_number, fake_notes_number = self.find_missed_and_fake_notes(found_onsets, actual_onsets,
+                                                                                     window_size,
+                                                                                     sample_rate)
+            # TODO should we take in account ratio of mistakes to length?
+            penalty = PENALTY * (missed_notes_number * MISSED_TO_FAKE_PENALTY_RATIO + fake_notes_number) * len(
+                actual_onsets)
+            penalties.append(penalty)
+        return sum(penalties)
 
     def find_missed_and_fake_notes(self, found_onsets, actual_onsets, window_size, sample_rate):
         window_size_in_sec = float(window_size) / sample_rate
