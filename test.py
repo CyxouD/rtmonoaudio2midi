@@ -190,7 +190,7 @@ class Test(object):
             mistakes_penalty = missed_notes_number * MISSED_TO_EXTRA_PENALTY_RATIO + extra_notes_number + other_notes_number
             penalty = mistakes_penalty / len(actual_onsets)
             penalties.append(penalty)
-        return sum(penalties)
+        return np.average(penalties)
 
     def missed_and_extra_notes_objective(self, allFoundPitchesInfos, allActualPitchesInfos, window_size,
                                          sample_rate):
@@ -205,7 +205,7 @@ class Test(object):
             penalty = (missed_notes_number * MISSED_TO_EXTRA_PENALTY_RATIO + extra_notes_number) / len(
                 actual_onsets)
             penalties.append(penalty)
-        return sum(penalties)
+        return np.average(penalties)
 
     def find_missed_and_extra_and_other_notes_number(self, found_pitches_infos, actual_pitches_infos, window_size,
                                                      sample_rate):
