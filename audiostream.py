@@ -13,6 +13,7 @@ from app_setup import (
     LOCAL_MEAN_RANGE_MULTIPLIER,
     LOCAL_MEAN_THRESHOLD,
     EXPONENTIAL_DECAY_THRESHOLD_PARAMETER,
+    SPECTRAL_FLUX_NORM_LEVEL,
     SAMPLE_RATE)
 from mingus.midi import fluidsynth
 from app_setup import SOUNDFONT
@@ -32,7 +33,7 @@ class SpectralAnalyser(object):
     FREQUENCY_RANGE = (80, 1200)
 
     def __init__(self, window_size, sample_rate, local_max_window, local_mean_range_multiplier, local_mean_threshold,
-                 exponential_decay_threshold_parameter):
+                 exponential_decay_threshold_parameter, spectral_flux_norm_level):
         self._framesData = -1  # initialise later
         self._window_size = window_size
         self._sample_rate = sample_rate
@@ -40,6 +41,7 @@ class SpectralAnalyser(object):
         self._m = local_mean_range_multiplier
         self._e = local_mean_threshold
         self._a = exponential_decay_threshold_parameter
+        self._p = spectral_flux_norm_level
 
         self.spectrums = []
         self._amplitudes = []
@@ -169,7 +171,8 @@ class SpectralAnalyser(object):
                                                                          dtype=np.int16)
             spectrum = self.spectrums[i]
 
-            flux = sum([max(spectrum[n] - last_spectrum[n], 0) for n in xrange(self._window_size)])
+            flux = pow(sum([max(pow(spectrum[n] - last_spectrum[n], self._p), 0) for n in xrange(self._window_size)]),
+                       1.0 / self._p)
             self._fluxs.append(flux)
 
     def cepstrum(self, samples):
@@ -209,6 +212,7 @@ class StreamProcessor:
     def __init__(self, pathWav, bits_per_sample, window_size=WINDOW_SIZE, local_max_window=LOCAL_MAX_WINDOW,
                  local_mean_range_multiplier=LOCAL_MEAN_RANGE_MULTIPLIER, local_mean_threshold=LOCAL_MEAN_THRESHOLD,
                  exponential_decay_threshold_parameter=EXPONENTIAL_DECAY_THRESHOLD_PARAMETER,
+                 spectral_flux_norm_level=SPECTRAL_FLUX_NORM_LEVEL,
                  play_notes=False):
         self._bits_per_sample = bits_per_sample;
         self._play_notes = play_notes
@@ -225,7 +229,8 @@ class StreamProcessor:
             local_max_window=self._local_max_window,
             local_mean_range_multiplier=local_mean_range_multiplier,
             local_mean_threshold=local_mean_threshold,
-            exponential_decay_threshold_parameter=exponential_decay_threshold_parameter)
+            exponential_decay_threshold_parameter=exponential_decay_threshold_parameter,
+            spectral_flux_norm_level=spectral_flux_norm_level)
 
         fluidsynth.init(SOUNDFONT)
 
