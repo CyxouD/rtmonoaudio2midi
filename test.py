@@ -39,11 +39,12 @@ class Test(object):
             # monophonic songs
             # TODO include Lick1 but handle it differently from Lick10,
             #  add other Lick3, Lick4, Lick5, Lick6, Lick11, but handle that some annotations are missing
-            self.process_folder("test_data/IDMT-SMT-GUITAR_V2/dataset2",
-                                bitDepth=24,
-                                filesSubstrings=['Lick11', 'Lick3', 'Lick4',
-                                                 'Lick5',
-                                                 'Lick6', "Lick2"], show_chart=False)
+            (allActualPitchesInfos, allFoundPitchesInfos) = self.process_folder("test_data/IDMT-SMT-GUITAR_V2/dataset2",
+                                                                                bitDepth=24,
+                                                                                filesSubstrings=["AR_Lick2"],
+                                                                                show_chart=False)
+            self.play_found_and_actual_pitches(allActualPitchesInfos, allFoundPitchesInfos)
+
         else:
             # rranges = ((1024, 2048), slice(5000, 50000, 5000), slice(0, 1, 0.1))
             # rranges = (slice(1024.0, 2048.0, 512.0), slice(5000.0, 10000.0, 5000.0))
@@ -150,17 +151,12 @@ class Test(object):
                                      local_mean_range_multiplier=local_mean_range_multiplier,
                                      local_mean_threshold=local_mean_threshold,
                                      exponential_decay_threshold_parameter=exponential_decay_threshold).run()
-            found_frequencies_infos = result.fundamental_frequencies_infos
             Pitch_info = collections.namedtuple('Pitch_info',
                                                 ['pitch', 'onset_sec'])
             # TODO improve round function
             found_pitches_infos = map(
                 lambda info: Pitch_info(self.round_midi(hz_to_midi(info.fundamental_frequency)), info.onset_sec),
                 result.fundamental_frequencies_infos)
-            found_fundamental_frequencies = map(lambda info: info.fundamental_frequency,
-                                                found_frequencies_infos)
-            found_onsets = map(lambda info: info.onset_sec, found_frequencies_infos)
-            found_pitches = map(lambda midi: self.round_midi(midi), list(hz_to_midi(found_fundamental_frequencies)))
             all_found_pitches_infos.append(found_pitches_infos)
             tree = ET.parse(os.path.join(path, filename))
             actual_pitches_infos = []
@@ -168,32 +164,26 @@ class Test(object):
                 actual_pitches_infos.append(
                     Pitch_info(pitch=int(event.find('pitch').text),
                                onset_sec=float(event.find('onsetSec').text)))
-            actual_onsets = map(lambda info: info.onset_sec, actual_pitches_infos)
-            actual_pitches = map(lambda info: info.pitch, actual_pitches_infos)
 
             all_actual_pitches_infos.append(actual_pitches_infos)
-
-            for pitch in actual_pitches:
-                # print('Playing actual pitch: ' + str(pitch) + '...')
-                fluidsynth.play_Note(pitch, 0, 100)
-            time.sleep(DELAYS_SECONDS_BETWEEN_PLAYING)
-
-            for pitch in found_pitches:
-                # print('Playing found pitch: ' + str(pitch) + '...')
-                fluidsynth.play_Note(pitch, 0, 100)
-            # create_midi_file_with_notes('test', [Note(pitches[0], 100, 0.2, 0.5)] , 140)
-            time.sleep(DELAYS_SECONDS_BETWEEN_PLAYING)
 
             if show_chart:
                 Chart.showSignalAndFlux(result.amplitudes, result.flux_values,
                                         result.window_size, result.onset_flux, result.local_mean_thresholds,
                                         result.exponential_decay_thresholds)
 
+            # found_frequencies_infos = result.fundamental_frequencies_infos
+            # found_fundamental_frequencies = map(lambda info: info.fundamental_frequency,
+            #                                     found_frequencies_infos)
+            # found_pitches = map(lambda midi: self.round_midi(midi), list(hz_to_midi(found_fundamental_frequencies)))
             # print('found = ' + str(found_pitches))
+            # actual_pitches = map(lambda info: info.pitch, actual_pitches_infos)
             # print('actual = ' + str(actual_pitches))
             # print('found_pitches_infos', found_pitches_infos)
             # print('actual_pitches_infos', actual_pitches_infos)
+            # found_onsets = map(lambda info: info.onset_sec, found_frequencies_infos)
             # print('found_onsets', found_onsets)
+            # actual_onsets = map(lambda info: info.onset_sec, actual_pitches_infos)
             # print('actual_onsets = ' + str(actual_onsets))
             # print('all_found_pitches_infos', all_found_pitches_infos)
             # print('all_actual_pitches_infos', all_actual_pitches_infos)
@@ -260,6 +250,19 @@ class Test(object):
         print('fake_onsets (2)', fake_notes_number)  # fake
 
         return missed_notes_number, fake_notes_number
+
+    def play_found_and_actual_pitches(self, allActualPitchesInfos, allFoundPitchesInfos):
+        for (actual_pitches_info, found_pitches_info) in zip(allActualPitchesInfos, allFoundPitchesInfos):
+            for pitch in map(lambda info: info.pitch, actual_pitches_info):
+                print('Playing actual pitch: ' + str(pitch) + '...')
+                fluidsynth.play_Note(pitch, 0, 100)
+            time.sleep(DELAYS_SECONDS_BETWEEN_PLAYING)
+
+            for pitch in map(lambda info: info.pitch, found_pitches_info):
+                print('Playing found pitch: ' + str(pitch) + '...')
+                fluidsynth.play_Note(pitch, 0, 100)
+            # create_midi_file_with_notes('test', [Note(pitches[0], 100, 0.2, 0.5)] , 140)
+            time.sleep(DELAYS_SECONDS_BETWEEN_PLAYING)
 
 
 if __name__ == '__main__':
