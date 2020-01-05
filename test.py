@@ -97,7 +97,7 @@ class Test(object):
                             if result_objective <= min_objective:
                                 min_objective = result_objective
                                 min_inputs = inputs
-                            print('Expirement number ' + str(experiment_n) + ' of ' + str(total_number_of_experiments))
+                            print('Experiment #' + str(experiment_n) + ' of ' + str(total_number_of_experiments))
                             print('results', results)
                             experiment_n += 1
 
