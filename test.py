@@ -64,10 +64,10 @@ class Test(object):
 
     def brute_optimization(self, objective_function):
         window_sizes = [1024, 2048]
-        local_mean_thresholds = np.arange(0, 100000, 5000).tolist()
+        local_mean_thresholds = np.arange(0, 100001, 5000).tolist()
         local_max_windows = [3]
         local_mean_range_multipliers = [2, 3]
-        exponential_decay_thresholds = np.arange(0.0, 1.0, 0.24).tolist()
+        exponential_decay_thresholds = np.arange(0.0, 1.01, 0.25).tolist()
 
         total_number_of_experiments = len(window_sizes) * len(local_mean_thresholds) * len(local_max_windows) * len(
             local_mean_range_multipliers) * len(exponential_decay_thresholds)
@@ -82,6 +82,7 @@ class Test(object):
                 for local_max_window in local_max_windows:
                     for local_mean_range_multiplier in local_mean_range_multipliers:
                         for exponential_decay_threshold in exponential_decay_thresholds:
+                            print('Experiment #' + str(experiment_n) + ' of ' + str(total_number_of_experiments))
                             inputs = [window_size, local_mean_threshold, local_max_window,
                                       local_mean_range_multiplier,
                                       exponential_decay_threshold]
@@ -97,7 +98,6 @@ class Test(object):
                             if result_objective <= min_objective:
                                 min_objective = result_objective
                                 min_inputs = inputs
-                            print('Experiment #' + str(experiment_n) + ' of ' + str(total_number_of_experiments))
                             print('results', results)
                             experiment_n += 1
 
