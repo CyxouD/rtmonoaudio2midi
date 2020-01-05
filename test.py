@@ -30,19 +30,22 @@ class Test(object):
     def __init__(self):
         if not TUNE_HYPERPARAMETERS:
             # Single notes are played on each string from the 0th fret (empty string) to the 12th fret.
-            # self.process_folder("test_data/IDMT-SMT-GUITAR_V2/dataset1/Fender Strat Clean Neck SC", bitDepth=16)
-            # self.process_folder("test_data/IDMT-SMT-GUITAR_V2/dataset1/Ibanez Power Strat Clean Bridge HU", bitDepth=16)
-            # self.process_folder("test_data/IDMT-SMT-GUITAR_V2/dataset1/Ibanez Power Strat Clean Bridge+Neck SC",
-            #                     bitDepth=16)
-            # self.process_folder("test_data/IDMT-SMT-GUITAR_V2/dataset1/Ibanez Power Strat Clean Neck HU", bitDepth=16)
+            self.process_folder("test_data/IDMT-SMT-GUITAR_V2/dataset1/Fender Strat Clean Neck SC", bitDepth=16,
+                                show_chart=False, print_logs=True)
+            self.process_folder("test_data/IDMT-SMT-GUITAR_V2/dataset1/Ibanez Power Strat Clean Bridge HU", bitDepth=16,
+                                show_chart=False, print_logs=True)
+            self.process_folder("test_data/IDMT-SMT-GUITAR_V2/dataset1/Ibanez Power Strat Clean Bridge+Neck SC",
+                                bitDepth=16, show_chart=False, print_logs=True)
+            self.process_folder("test_data/IDMT-SMT-GUITAR_V2/dataset1/Ibanez Power Strat Clean Neck HU", bitDepth=16,
+                                show_chart=False, print_logs=True)
 
             # monophonic songs
             # TODO include Lick1 but handle it differently from Lick10,
             #  add other Lick3, Lick4, Lick5, Lick6, Lick11, but handle that some annotations are missing
-            (allActualPitchesInfos, allFoundPitchesInfos) = self.process_folder("test_data/IDMT-SMT-GUITAR_V2/dataset2",
-                                                                                bitDepth=24,
-                                                                                filesSubstrings=["AR_Lick2"],
-                                                                                show_chart=False, print_logs=True)
+            # (allActualPitchesInfos, allFoundPitchesInfos) = self.process_folder("test_data/IDMT-SMT-GUITAR_V2/dataset2",
+            #                                                                     bitDepth=24,
+            #                                                                     filesSubstrings=["AR_Lick2"],
+            #                                                                     show_chart=False, print_logs=True)
             self.play_found_and_actual_pitches(allActualPitchesInfos, allFoundPitchesInfos)
             self.show_table(self, allActualPitchesInfos, allFoundPitchesInfos)
 
