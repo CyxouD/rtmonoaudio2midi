@@ -46,14 +46,6 @@ class Test(object):
             self.play_found_and_actual_pitches(allActualPitchesInfos, allFoundPitchesInfos)
 
         else:
-            # rranges = ((1024, 2048), slice(5000, 50000, 5000), slice(0, 1, 0.1))
-            # rranges = (slice(1024.0, 2048.0, 512.0), slice(5000.0, 10000.0, 5000.0))
-            # params = (3, 3)
-            # params = (3, 3, 0.3)
-            # (resbrute, some, grid, jout) = optimize.brute(self.f, rranges, args=params, full_output=True)
-            # print('resbrute', resbrute)
-            # print(tabulate(grid))
-
             objective_function = self.missed_and_fake_onset_notes_objective
             # objective_function = self.mean_squared_error
             (minResult, results) = self.brute_optimization(objective_function)
