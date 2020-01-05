@@ -214,7 +214,6 @@ class Test(object):
             missed_notes_number, fake_notes_number = self.find_missed_and_fake_notes(found_onsets, actual_onsets,
                                                                                      window_size,
                                                                                      sample_rate)
-            # TODO should we take in account ratio of mistakes to length?
             penalty = PENALTY * (missed_notes_number * MISSED_TO_FAKE_PENALTY_RATIO + fake_notes_number) / len(
                 actual_onsets)
             penalties.append(penalty)
