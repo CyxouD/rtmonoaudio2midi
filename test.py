@@ -22,7 +22,7 @@ from scipy import optimize
 DELAYS_SECONDS_BETWEEN_PLAYING = 0
 
 PENALTY = 50
-MISSED_TO_FAKE_PENALTY_RATIO = 2 / 1
+MISSED_TO_EXTRA_PENALTY_RATIO = 2 / 1
 
 
 class Test(object):
@@ -181,19 +181,25 @@ class Test(object):
                                               sample_rate):
         penalties = []
         for (actual_pitches_infos, found_pitches_infos) in zip(allFoundPitchesInfos, allActualPitchesInfos):
-            found_onsets = list(map(lambda info: info.onset_sec, found_pitches_infos))
             actual_onsets = list(map(lambda info: info.onset_sec, actual_pitches_infos))
-            missed_notes_number, fake_notes_number = self.find_missed_and_fake_notes(found_onsets, actual_onsets,
-                                                                                     window_size,
-                                                                                     sample_rate)
-            penalty = (missed_notes_number * MISSED_TO_FAKE_PENALTY_RATIO + fake_notes_number) / len(
+            missed_notes_number, extra_notes_number, _ = self.find_missed_and_extra_and_other_notes_number(
+                found_pitches_infos,
+                actual_pitches_infos,
+                window_size,
+                sample_rate)
+            penalty = (missed_notes_number * MISSED_TO_EXTRA_PENALTY_RATIO + extra_notes_number) / len(
                 actual_onsets)
             penalties.append(penalty)
         return sum(penalties)
 
-    def find_missed_and_fake_notes(self, found_onsets, actual_onsets, window_size, sample_rate):
+    def find_missed_and_extra_and_other_notes_number(self, found_pitches_infos, actual_pitches_infos, window_size,
+                                                     sample_rate):
+        found_onsets = list(map(lambda info: info.onset_sec, found_pitches_infos))
+        actual_onsets = list(map(lambda info: info.onset_sec, actual_pitches_infos))
+
         window_size_in_sec = float(window_size) / sample_rate
         onsets_equals = 0
+        other_notes_number = 0
         m = 2
 
         min_distance = 100500
@@ -205,15 +211,17 @@ class Test(object):
         # step = window_size_in_sec * m
         step = min_distance / 2
         associated_found_onsets = []
-        for actual_onset in actual_onsets:
-            for found_onset in found_onsets:
+        for (actual_pitch, actual_onset) in actual_pitches_infos:
+            for (found_pitch, found_onset) in found_pitches_infos:
                 if found_onset - step <= actual_onset <= found_onset + step and found_onset not in associated_found_onsets:
+                    if found_pitch != actual_pitch:
+                        other_notes_number += 1
                     onsets_equals = onsets_equals + 1
                     associated_found_onsets.append(found_onset)
                     break  # TODO should we stop if we found note in interval, what if more than 1 is found?
 
         missed_notes_number = len(actual_onsets) - onsets_equals
-        fake_notes_number = len(found_onsets) - onsets_equals
+        extra_notes_number = len(found_onsets) - onsets_equals
         print('associated_found_onsets', associated_found_onsets)
         print('min actual distance', min_distance)
         print('window_size_in_sec', window_size_in_sec)
@@ -221,10 +229,11 @@ class Test(object):
         print('actual size', len(actual_onsets))
         print('found size', len(found_onsets))
         print('onsets equals', onsets_equals)
-        print('missed onsets (1)', missed_notes_number)  # missed
-        print('fake_onsets (2)', fake_notes_number)  # fake
+        print('other_notes_number', other_notes_number)
+        print('missed onsets', missed_notes_number)  # missed
+        print('extra_onsets', extra_notes_number)  # extra
 
-        return missed_notes_number, fake_notes_number
+        return missed_notes_number, extra_notes_number, other_notes_number
 
     def play_found_and_actual_pitches(self, allActualPitchesInfos, allFoundPitchesInfos):
         for (actual_pitches_info, found_pitches_info) in zip(allActualPitchesInfos, allFoundPitchesInfos):
@@ -264,7 +273,9 @@ class Test(object):
         actual_onsets = map(lambda info: info.onset_sec, actual_pitches_infos)
         print('actual_onsets = ' + str(actual_onsets))
         print('self.find_missed_and_fake_notes(list(found_onsets), list(actual_onsets), window_size, SAMPLE_RATE)',
-              self.find_missed_and_fake_notes(list(found_onsets), list(actual_onsets), WINDOW_SIZE, SAMPLE_RATE))
+              self.find_missed_and_extra_and_other_notes_number(found_pitches_infos, actual_pitches_infos,
+                                                                WINDOW_SIZE,
+                                                                SAMPLE_RATE))
 
 
 if __name__ == '__main__':
