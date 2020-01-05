@@ -18,6 +18,7 @@ from numeric_metrics import NumericMetrics
 # from midi import create_midi_file_with_notes, Note, hz_to_midi
 from table_metrics import TableMetrics
 from scipy import optimize
+import time
 
 DELAYS_SECONDS_BETWEEN_PLAYING = 0
 
@@ -50,9 +51,13 @@ class Test(object):
             self.show_table(allActualPitchesInfos, allFoundPitchesInfos)
 
         else:
+            text_file = open("Output_missed_and_extra_and_other_notes_objective" + str(time.time()) + ".txt", "w")
             objective_function = self.missed_and_extra_and_other_notes_objective
             # objective_function = self.mean_squared_error
             (minResult, results) = self.brute_optimization(objective_function)
+
+            text_file.write(str(results))
+            text_file.close()
             print('minResult', minResult)
             print('results', results)
 
