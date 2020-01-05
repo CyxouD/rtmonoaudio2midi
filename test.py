@@ -51,7 +51,7 @@ class Test(object):
             self.show_table(allActualPitchesInfos, allFoundPitchesInfos)
 
         else:
-            text_file = open("Output_missed_and_extra_and_other_notes_objective" + str(time.time()) + ".txt", "w")
+            text_file = open("Output_results" + str(time.time()) + ".txt", "w")
             objective_function = self.missed_and_extra_and_other_notes_objective
             # objective_function = self.mean_squared_error
             (minResult, results) = self.brute_optimization(objective_function)
