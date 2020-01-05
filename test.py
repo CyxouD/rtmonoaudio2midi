@@ -47,7 +47,7 @@ class Test(object):
             #                                                                     filesSubstrings=["AR_Lick2"],
             #                                                                     show_chart=False, print_logs=True)
             self.play_found_and_actual_pitches(allActualPitchesInfos, allFoundPitchesInfos)
-            self.show_table(self, allActualPitchesInfos, allFoundPitchesInfos)
+            self.show_table(allActualPitchesInfos, allFoundPitchesInfos)
 
         else:
             objective_function = self.missed_and_fake_onset_notes_objective
