@@ -44,6 +44,7 @@ class Test(object):
                                                                                 filesSubstrings=["AR_Lick2"],
                                                                                 show_chart=False, print_logs=True)
             self.play_found_and_actual_pitches(allActualPitchesInfos, allFoundPitchesInfos)
+            self.show_table(self, allActualPitchesInfos, allFoundPitchesInfos)
 
         else:
             objective_function = self.missed_and_fake_onset_notes_objective
@@ -168,18 +169,6 @@ class Test(object):
             if print_logs:
                 self.print_logs(actual_pitches_infos, found_pitches_infos)
 
-        if len(all_actual_pitches_infos) != 0:
-            TableMetrics.numeric_metrics_in_table(
-                map(lambda actual_pitches_infos: map(lambda info: info.pitch, actual_pitches_infos),
-                    all_actual_pitches_infos),
-                map(lambda found_pitches_infos: map(
-                    lambda info: info.pitch, found_pitches_infos),
-                    all_found_pitches_infos))
-        else:
-            print('no actual pitches')
-
-        print("\n" * 10)
-
         return all_actual_pitches_infos, all_found_pitches_infos
 
     def round_midi(self, midi):
@@ -246,6 +235,19 @@ class Test(object):
                 fluidsynth.play_Note(pitch, 0, 100)
             # create_midi_file_with_notes('test', [Note(pitches[0], 100, 0.2, 0.5)] , 140)
             time.sleep(DELAYS_SECONDS_BETWEEN_PLAYING)
+
+    def show_table(self, allActualPitchesInfos, allFoundPitchesInfos):
+        if len(allActualPitchesInfos) != 0:
+            TableMetrics.numeric_metrics_in_table(
+                map(lambda actual_pitches_infos: map(lambda info: info.pitch, actual_pitches_infos),
+                    allActualPitchesInfos),
+                map(lambda found_pitches_infos: map(
+                    lambda info: info.pitch, found_pitches_infos),
+                    allFoundPitchesInfos))
+        else:
+            print('no actual pitches')
+
+        print("\n" * 10)
 
     def print_logs(self, actual_pitches_infos, found_pitches_infos):
         found_pitches = map(lambda info: info.pitch, found_pitches_infos)
