@@ -183,6 +183,19 @@ class Test(object):
     def round_midi(self, midi):
         return int(round(midi))
 
+    def other_notes_difference_objective(self, allFoundPitchesInfos, allActualPitchesInfos, window_size,
+                                         sample_rate):
+        penalties = []
+        for (actual_pitches_infos, found_pitches_infos) in zip(allFoundPitchesInfos, allActualPitchesInfos):
+            _, _, (_, other_notes_pairs) = self.find_missed_and_extra_and_other_notes(
+                found_pitches_infos,
+                actual_pitches_infos,
+                window_size,
+                sample_rate)
+            penalty = sum(map(lambda pair: abs(pair[0] - pair[1]), other_notes_pairs))
+            penalties.append(penalty)
+        return np.average(penalties)
+
     def missed_and_extra_and_other_notes_objective(self, allFoundPitchesInfos, allActualPitchesInfos, window_size,
                                                    sample_rate):
         penalties = []
@@ -297,15 +310,10 @@ class Test(object):
         print('found_onsets', found_onsets)
         actual_onsets = map(lambda info: info.onset_sec, actual_pitches_infos)
         print('actual_onsets = ' + str(actual_onsets))
-        print('self.find_missed_and_fake_notes',
+        print('find_missed_and_extra_and_other_notes',
               self.find_missed_and_extra_and_other_notes(found_pitches_infos, actual_pitches_infos,
                                                          WINDOW_SIZE,
                                                          SAMPLE_RATE))
-        print('self.find_missed_and_extra_and_other_notes',
-              self.find_missed_and_extra_and_other_notes(found_pitches_infos, actual_pitches_infos,
-                                                         WINDOW_SIZE,
-                                                         SAMPLE_RATE))
-
 
 if __name__ == '__main__':
     test = Test()
