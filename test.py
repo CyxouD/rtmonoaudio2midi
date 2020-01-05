@@ -5,7 +5,7 @@ from os.path import isfile, join, splitext, exists
 from tabulate import tabulate
 
 from app_setup import WINDOW_SIZE, LOCAL_MAX_WINDOW, LOCAL_MEAN_RANGE_MULTIPLIER, LOCAL_MEAN_THRESHOLD, \
-    EXPONENTIAL_DECAY_THRESHOLD_PARAMETER, TUNE_HYPERPARAMETERS, SAMPLE_RATE
+    EXPONENTIAL_DECAY_THRESHOLD_PARAMETER, TUNE_HYPERPARAMETERS, SAMPLE_RATE, SPECTRAL_FLUX_NORM_LEVEL
 from audiostream import StreamProcessor
 import xml.etree.ElementTree as ET
 import numpy as np
@@ -68,9 +68,10 @@ class Test(object):
         local_max_windows = [3]
         local_mean_range_multipliers = [2, 3]
         exponential_decay_thresholds = np.arange(0.0, 1.01, 0.25).tolist()
+        spectral_flux_norm_levels = [1, 2]
 
         total_number_of_experiments = len(window_sizes) * len(local_mean_thresholds) * len(local_max_windows) * len(
-            local_mean_range_multipliers) * len(exponential_decay_thresholds)
+            local_mean_range_multipliers) * len(exponential_decay_thresholds) * len(spectral_flux_norm_levels)
 
         results = {}
 
@@ -82,30 +83,31 @@ class Test(object):
                 for local_max_window in local_max_windows:
                     for local_mean_range_multiplier in local_mean_range_multipliers:
                         for exponential_decay_threshold in exponential_decay_thresholds:
-                            print('Experiment #' + str(experiment_n) + ' of ' + str(total_number_of_experiments))
-                            inputs = [window_size, local_mean_threshold, local_max_window,
-                                      local_mean_range_multiplier,
-                                      exponential_decay_threshold]
+                            for spectral_flux_norm_level in spectral_flux_norm_levels:
+                                print('Experiment #' + str(experiment_n) + ' of ' + str(total_number_of_experiments))
+                                inputs = [window_size, local_mean_threshold, local_max_window,
+                                          local_mean_range_multiplier,
+                                          exponential_decay_threshold, spectral_flux_norm_level]
 
-                            result = self.tuning_function(
-                                inputs)
-                            result_objective = objective_function(result[0], result[1], window_size, SAMPLE_RATE)
-                            if min_inputs is None:
-                                min_inputs = inputs
-                                min_objective = result_objective
-                            results[str(inputs)] = result_objective
+                                result = self.tuning_function(
+                                    inputs)
+                                result_objective = objective_function(result[0], result[1], window_size, SAMPLE_RATE)
+                                if min_inputs is None:
+                                    min_inputs = inputs
+                                    min_objective = result_objective
+                                results[str(inputs)] = result_objective
 
-                            if result_objective <= min_objective:
-                                min_objective = result_objective
-                                min_inputs = inputs
-                            print('results', results)
-                            experiment_n += 1
+                                if result_objective <= min_objective:
+                                    min_objective = result_objective
+                                    min_inputs = inputs
+                                print('results', results)
+                                experiment_n += 1
 
         return (min_inputs, min_objective), results
 
     def tuning_function(self, inputs, *params):
         (window_size, local_mean_threshold, local_max_window, local_mean_range_multiplier,
-         exponential_decay_threshold) = inputs
+         exponential_decay_threshold, spectral_flux_norm_level) = inputs
         (allActualPitchesInfos, allFoundPitchesInfos) = self.process_folder("test_data/IDMT-SMT-GUITAR_V2/dataset2",
                                                                             bitDepth=24,
                                                                             window_size=window_size,
@@ -118,6 +120,7 @@ class Test(object):
                                                                                              'Lick3_', 'Lick4_',
                                                                                              'Lick5_',
                                                                                              'Lick6_', "Lick2_"],
+                                                                            spectral_flux_norm_level=spectral_flux_norm_level,
                                                                             show_chart=False)
 
         return allFoundPitchesInfos, allActualPitchesInfos
@@ -125,7 +128,8 @@ class Test(object):
     def process_folder(self, folderPath, bitDepth, window_size=WINDOW_SIZE, local_max_window=LOCAL_MAX_WINDOW,
                        local_mean_range_multiplier=LOCAL_MEAN_RANGE_MULTIPLIER,
                        local_mean_threshold=LOCAL_MEAN_THRESHOLD,
-                       exponential_decay_threshold=EXPONENTIAL_DECAY_THRESHOLD_PARAMETER, filesSubstrings=None,
+                       exponential_decay_threshold=EXPONENTIAL_DECAY_THRESHOLD_PARAMETER,
+                       spectral_flux_norm_level=SPECTRAL_FLUX_NORM_LEVEL, filesSubstrings=None,
                        show_chart=True,
                        print_logs=False):
         print(folderPath)
@@ -153,7 +157,8 @@ class Test(object):
                                      local_max_window=local_max_window,
                                      local_mean_range_multiplier=local_mean_range_multiplier,
                                      local_mean_threshold=local_mean_threshold,
-                                     exponential_decay_threshold_parameter=exponential_decay_threshold).run()
+                                     exponential_decay_threshold_parameter=exponential_decay_threshold,
+                                     spectral_flux_norm_level=spectral_flux_norm_level).run()
             Pitch_info = collections.namedtuple('Pitch_info',
                                                 ['pitch', 'onset_sec'])
             # TODO improve round function
