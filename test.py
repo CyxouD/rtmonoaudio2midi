@@ -169,7 +169,12 @@ class Test(object):
                 self.print_logs(actual_pitches_infos, found_pitches_infos)
 
         if len(all_actual_pitches_infos) != 0:
-            TableMetrics.numeric_metrics_in_table(all_actual_pitches_infos, all_found_pitches_infos)
+            TableMetrics.numeric_metrics_in_table(
+                map(lambda actual_pitches_infos: map(lambda info: info.pitch, actual_pitches_infos),
+                    all_actual_pitches_infos),
+                map(lambda found_pitches_infos: map(
+                    lambda info: info.pitch, found_pitches_infos),
+                    all_found_pitches_infos))
         else:
             print('no actual pitches')
 
