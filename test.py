@@ -42,7 +42,7 @@ class Test(object):
             (allActualPitchesInfos, allFoundPitchesInfos) = self.process_folder("test_data/IDMT-SMT-GUITAR_V2/dataset2",
                                                                                 bitDepth=24,
                                                                                 filesSubstrings=["AR_Lick2"],
-                                                                                show_chart=False)
+                                                                                show_chart=False, print_logs=True)
             self.play_found_and_actual_pitches(allActualPitchesInfos, allFoundPitchesInfos)
 
         else:
@@ -124,7 +124,8 @@ class Test(object):
                        local_mean_range_multiplier=LOCAL_MEAN_RANGE_MULTIPLIER,
                        local_mean_threshold=LOCAL_MEAN_THRESHOLD,
                        exponential_decay_threshold=EXPONENTIAL_DECAY_THRESHOLD_PARAMETER, filesSubstrings=None,
-                       show_chart=True):
+                       show_chart=True,
+                       print_logs=False):
         print(folderPath)
         path = folderPath + "/annotation/"
         files = []
@@ -172,23 +173,8 @@ class Test(object):
                                         result.window_size, result.onset_flux, result.local_mean_thresholds,
                                         result.exponential_decay_thresholds)
 
-            # found_frequencies_infos = result.fundamental_frequencies_infos
-            # found_fundamental_frequencies = map(lambda info: info.fundamental_frequency,
-            #                                     found_frequencies_infos)
-            # found_pitches = map(lambda midi: self.round_midi(midi), list(hz_to_midi(found_fundamental_frequencies)))
-            # print('found = ' + str(found_pitches))
-            # actual_pitches = map(lambda info: info.pitch, actual_pitches_infos)
-            # print('actual = ' + str(actual_pitches))
-            # print('found_pitches_infos', found_pitches_infos)
-            # print('actual_pitches_infos', actual_pitches_infos)
-            # found_onsets = map(lambda info: info.onset_sec, found_frequencies_infos)
-            # print('found_onsets', found_onsets)
-            # actual_onsets = map(lambda info: info.onset_sec, actual_pitches_infos)
-            # print('actual_onsets = ' + str(actual_onsets))
-            # print('all_found_pitches_infos', all_found_pitches_infos)
-            # print('all_actual_pitches_infos', all_actual_pitches_infos)
-            # print('self.find_missed_and_fake_notes(list(found_onsets), list(actual_onsets), window_size, SAMPLE_RATE)',
-            #       self.find_missed_and_fake_notes(list(found_onsets), list(actual_onsets), window_size, SAMPLE_RATE))
+            if print_logs:
+                self.print_logs(actual_pitches_infos, found_pitches_infos)
 
         if len(all_actual_pitches_infos) != 0:
             TableMetrics.numeric_metrics_in_table(all_actual_pitches_infos, all_found_pitches_infos)
@@ -263,6 +249,20 @@ class Test(object):
                 fluidsynth.play_Note(pitch, 0, 100)
             # create_midi_file_with_notes('test', [Note(pitches[0], 100, 0.2, 0.5)] , 140)
             time.sleep(DELAYS_SECONDS_BETWEEN_PLAYING)
+
+    def print_logs(self, actual_pitches_infos, found_pitches_infos):
+        found_pitches = map(lambda info: info.pitch, found_pitches_infos)
+        print('found = ' + str(found_pitches))
+        actual_pitches = map(lambda info: info.pitch, actual_pitches_infos)
+        print('actual = ' + str(actual_pitches))
+        print('found_pitches_infos', found_pitches_infos)
+        print('actual_pitches_infos', actual_pitches_infos)
+        found_onsets = map(lambda info: info.onset_sec, found_pitches_infos)
+        print('found_onsets', found_onsets)
+        actual_onsets = map(lambda info: info.onset_sec, actual_pitches_infos)
+        print('actual_onsets = ' + str(actual_onsets))
+        print('self.find_missed_and_fake_notes(list(found_onsets), list(actual_onsets), window_size, SAMPLE_RATE)',
+              self.find_missed_and_fake_notes(list(found_onsets), list(actual_onsets), WINDOW_SIZE, SAMPLE_RATE))
 
 
 if __name__ == '__main__':
