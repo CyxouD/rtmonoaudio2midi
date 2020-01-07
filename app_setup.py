@@ -8,8 +8,6 @@ SPECTRAL_FLUX_NORM_LEVEL = 1
 RING_BUFFER_SIZE = 40
 SAMPLE_RATE = 44100
 
-TUNE_HYPERPARAMETERS = False
-
 SOUNDFONT = "sound_fonts/SpanishClassicalGuitar.sf2"
 # don't set it to False, broke it right now
 FROM_FILE = True
