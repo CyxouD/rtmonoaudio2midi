@@ -2,7 +2,6 @@ from app_setup import SAMPLE_RATE
 import numpy as np
 
 from process_folder import process_folder
-import time
 
 DELAYS_SECONDS_BETWEEN_PLAYING = 0
 
@@ -13,15 +12,34 @@ MISSED_TO_EXTRA_PENALTY_RATIO = 2 / 1
 class TuningHyperparameters(object):
 
     def __init__(self):
-        text_file = open("Output_results" + str(time.time()) + ".txt", "w")
-        objective_function = self.missed_and_extra_and_other_notes_objective
-        # objective_function = self.mean_squared_error
-        (minResult, results) = self.brute_optimization(objective_function)
+        (min_combine_results, combine_results) = self.combine_optimization_results()
+        print('min_combine_results', min_combine_results)
+        print('combined results', combine_results)
 
-        text_file.write(str(results))
-        text_file.close()
-        print('minResult', minResult)
-        print('results', results)
+    def combine_optimization_results(self):
+        (missed_and_extra_and_other_notes_objective_minResult,
+         missed_and_extra_and_other_notes_objective_results) = self.brute_optimization(
+            self.missed_and_extra_and_other_notes_objective)
+        (other_notes_difference_objective_minResult,
+         other_notes_difference_objective_results) = self.brute_optimization(
+            self.other_notes_difference_objective)
+        mapped_missed_and_extra_and_other_notes_objective_results = self.map_results_from_zero_to_one(
+            missed_and_extra_and_other_notes_objective_results)
+        mapped_other_notes_difference_objective_results = self.map_results_from_zero_to_one(
+            other_notes_difference_objective_results)
+
+        combine_results = {
+            k: [missed_and_extra_and_other_notes_objective_results[k], other_notes_difference_objective_results[k],
+                mapped_missed_and_extra_and_other_notes_objective_results[k],
+                mapped_other_notes_difference_objective_results[k],
+                v + mapped_other_notes_difference_objective_results[k]] for k, v in
+            mapped_missed_and_extra_and_other_notes_objective_results.items()}
+        min_combine_results = min(combine_results.items(), key=lambda x: x[1])
+        return min_combine_results, combine_results
+
+    def map_results_from_zero_to_one(self, results):
+        return {k: ((v - min(results.values())) / (max(results.values()) - min(results.values()))) for k, v in
+                results.items()}
 
     def brute_optimization(self, objective_function):
         window_sizes = [1024, 2048]
