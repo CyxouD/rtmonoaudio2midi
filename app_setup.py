@@ -1,8 +1,8 @@
 # start: best results retrieved from TuningHyperparameters.py
 WINDOW_SIZE = 2048
+LOCAL_MEAN_THRESHOLD = 100000
 LOCAL_MAX_WINDOW = 3  # window used to find a local maximum
-LOCAL_MEAN_RANGE_MULTIPLIER = 3
-LOCAL_MEAN_THRESHOLD = 50000
+LOCAL_MEAN_RANGE_MULTIPLIER = 2
 EXPONENTIAL_DECAY_THRESHOLD_PARAMETER = 0.75
 SPECTRAL_FLUX_NORM_LEVEL = 1
 # end: best results retrieved from TuningHyperparameters.py
