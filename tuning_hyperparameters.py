@@ -34,7 +34,7 @@ class TuningHyperparameters(object):
                 mapped_other_notes_difference_objective_results[k],
                 v + mapped_other_notes_difference_objective_results[k]] for k, v in
             mapped_missed_and_extra_and_other_notes_objective_results.items()}
-        min_combine_results = min(combine_results.items(), key=lambda x: x[1])
+        min_combine_results = min(combine_results.items(), key=lambda x: x[1]) # TODO fix incorrect getting of min
         return min_combine_results, combine_results
 
     def map_results_from_zero_to_one(self, results):
