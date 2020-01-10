@@ -61,6 +61,7 @@ class SpectralAnalyser(object):
 
     def is_onset(self, n):
 
+        # TODO should flux be 'normalized to have a mean of 0 and standard deviation of 1'?  (https://pdfs.semanticscholar.org/2f5d/2c3884181f19a78efc17ce07c54f249edb0e.pdf)
         is_flux_local_max = self.is_flux_local_max(n)
         is_more_local_mean_threshold = self.is_more_local_mean_threshold(n)
         is_more_exponential_decay_threshold = self.is_more_exponential_decay_threshold(n)
