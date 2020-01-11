@@ -1,5 +1,7 @@
 *.pyc
 sound_fonts/
+# file where all files are saved after tabulature
+lilypond_generated/
 
 
 # Created by https://www.gitignore.io/api/pycharm
