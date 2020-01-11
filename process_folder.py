@@ -9,6 +9,10 @@ import xml.etree.ElementTree as ET
 
 from chart import Chart
 from midi import hz_to_midi
+from retrieve_info_from_annotation import retrieve_info_from_annotation
+
+Pitch_info = collections.namedtuple('Pitch_info',
+                                    ['pitch', 'onset_sec'])
 
 
 def process_folder(folderPath, bitDepth, window_size=WINDOW_SIZE, local_max_window=LOCAL_MAX_WINDOW,
@@ -45,20 +49,13 @@ def process_folder(folderPath, bitDepth, window_size=WINDOW_SIZE, local_max_wind
                                  local_mean_threshold=local_mean_threshold,
                                  exponential_decay_threshold_parameter=exponential_decay_threshold,
                                  spectral_flux_norm_level=spectral_flux_norm_level).run()
-        Pitch_info = collections.namedtuple('Pitch_info',
-                                            ['pitch', 'onset_sec'])
         # TODO improve round function
         found_pitches_infos = map(
             lambda info: Pitch_info(round_midi(hz_to_midi(info.fundamental_frequency)), info.onset_sec),
             result.fundamental_frequencies_infos)
         all_found_pitches_infos.append(found_pitches_infos)
-        tree = ET.parse(os.path.join(path, filename))
-        actual_pitches_infos = []
-        for event in tree.getroot().find('transcription').findall('event'):
-            actual_pitches_infos.append(
-                Pitch_info(pitch=int(event.find('pitch').text),
-                           onset_sec=float(event.find('onsetSec').text)))
 
+        actual_pitches_infos = retrieve_info_from_annotation(os.path.join(path, filename))
         all_actual_pitches_infos.append(actual_pitches_infos)
 
         if show_chart:
