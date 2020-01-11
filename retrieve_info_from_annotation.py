@@ -13,3 +13,4 @@ def retrieve_info_from_annotation(annotation_path):
         actual_pitches_infos.append(
             Pitch_info(pitch=int(event.find('pitch').text),
                        onset_sec=float(event.find('onsetSec').text)))
+    return actual_pitches_infos
