@@ -172,8 +172,9 @@ class SpectralAnalyser(object):
                                                                          dtype=np.int16)
             spectrum = self.spectrums[i]
 
-            flux = pow(sum([max(pow(spectrum[n] - last_spectrum[n], self._p), 0) for n in xrange(self._window_size)]),
-                       1.0 / self._p)
+            flux = pow(
+                sum([max(pow(max(spectrum[n] - last_spectrum[n], 0), self._p), 0) for n in xrange(self._window_size)]),
+                1.0 / self._p)
             self._fluxs.append(flux)
 
     def cepstrum(self, samples):
