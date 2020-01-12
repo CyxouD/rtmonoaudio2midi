@@ -120,7 +120,7 @@ class TuningHyperparameters(object):
     def missed_and_extra_and_other_notes_objective(self, allFoundPitchesInfos, allActualPitchesInfos, window_size,
                                                    sample_rate):
         penalties = []
-        for (actual_pitches_infos, found_pitches_infos) in zip(allFoundPitchesInfos, allActualPitchesInfos):
+        for (found_pitches_infos, actual_pitches_infos) in zip(allFoundPitchesInfos, allActualPitchesInfos):
             actual_onsets = list(map(lambda info: info.onset_sec, actual_pitches_infos))
             missed_notes_number, extra_notes_number, (
                 other_notes_number, _) = self.find_missed_and_extra_and_other_notes(
