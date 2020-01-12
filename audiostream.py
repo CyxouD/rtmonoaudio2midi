@@ -25,7 +25,7 @@ from math import sqrt, pow
 import sys
 
 # to fix recursion overflow in SpectralAnalyser.exponential_decay_threshold function. Increase if needed
-sys.setrecursionlimit(1500)
+sys.setrecursionlimit(10000)
 
 
 class SpectralAnalyser(object):
