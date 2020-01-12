@@ -32,7 +32,7 @@ class Chart:
                                             exponential_decay_thresholds]
         plt.plot(x, scaled_exponential_decays_values, 'g', label="Exponential decay threshold function")
 
-        plt.legend(loc="upper right")
+        plt.legend(loc="lower right")
         plt.xlabel('frames')
         plt.ylabel('frequency and scaled thresholds')
 
