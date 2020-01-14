@@ -1,9 +1,6 @@
 # rtmonoaudio2midi
-Real-time note recognition in monophonic audio stream
+Note recognition for monophonic guitar compositions
+INSTALL LilyPond app to display tablature and add it to your bash:
+export PATH="$PATH:/Applications/LilyPond.app/Contents/Resources/bin/"
 
-Please install all the dependencies from `requirements.txt` file by executing:
-`pip install -r requirements.txt`
 
-To run the app:
-* Download a SoundFont file and update a path to it in the `app_setup.py` file
-* Execute ` python audiostream.py`
