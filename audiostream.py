@@ -63,8 +63,8 @@ class SpectralAnalyser(object):
 
         # TODO should flux be 'normalized to have a mean of 0 and standard deviation of 1'?  (https://pdfs.semanticscholar.org/2f5d/2c3884181f19a78efc17ce07c54f249edb0e.pdf)
         is_flux_local_max = self.is_flux_local_max(n)
-        is_more_local_mean_threshold = self.is_more_local_mean_threshold(n)
-        is_more_exponential_decay_threshold = self.is_more_exponential_decay_threshold(n)
+        is_more_local_mean_threshold = self.is_more_or_equal_local_mean_threshold(n)
+        is_more_exponential_decay_threshold = self.is_more_or_equalexponential_decay_threshold(n)
 
         is_onset = is_flux_local_max and is_more_local_mean_threshold and is_more_exponential_decay_threshold
         if is_onset:
@@ -89,14 +89,14 @@ class SpectralAnalyser(object):
         range_fluxs = self._fluxs[slice(max(0, n - self._w), n + self._w + 1)]
         return max(range_fluxs)
 
-    def is_more_local_mean_threshold(self, n):
+    def is_more_or_equal_local_mean_threshold(self, n):
         flux = self._fluxs[n]
         return flux >= self.local_mean_threshold(n)
 
     def local_mean_threshold(self, n):
         return np.mean(self._fluxs[slice(max(0, n - self._m * self._w), n + self._w + 1)]) + self._e
 
-    def is_more_exponential_decay_threshold(self, n):
+    def is_more_or_equalexponential_decay_threshold(self, n):
         flux = self._fluxs[n]
         return flux >= self.exponential_decay_threshold(n - 1)
 
